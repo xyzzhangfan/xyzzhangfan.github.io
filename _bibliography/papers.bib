@@ -1,115 +1,153 @@
 ---
 ---
 
-@string{aps = {American Physical Society,}}
 
-@book{einstein1920relativity,
-  title={Relativity: the Special and General Theory},
-  author={Einstein, Albert},
-  year={1920},
-  publisher={Methuen & Co Ltd},
-  html={relativity.html}
+@article{10.1145/3371277,
+author = {Zhang, Fan and Hu, Miao},
+title = {Mitigate Parasitic Resistance in Resistive Crossbar-Based Convolutional Neural Networks},
+year = {2020},
+issue_date = {July 2020},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+volume = {16},
+number = {3},
+issn = {1550-4832},
+url = {https://doi.org/10.1145/3371277},
+doi = {10.1145/3371277},
+abstract = {Traditional computing hardware often encounters on-chip memory bottleneck on large-scale Convolution Neural Networks (CNN) applications. With its unique in-memory computing feature, resistive crossbar-based computing attracts researchers’ attention as a promising solution to the memory bottleneck issue in von Neumann architectures. However, the parasitic resistances in crossbar deviate its behavior from the ideal weighted summation operation. In large-scale implementations, the impact of parasitic resistances must be carefully considered and mitigated to ensure circuits’ functionality. In this work, we implemented and simulated CNNs on resistive crossbar circuits with consideration of parasitic resistances. Moreover, we carried out a new mapping scheme for high utilization of crossbar arrays on convolution, and a mitigation algorithm to mitigate parasitic resistances in CNN applications. The mitigation algorithm considers parasitic resistances as well as data/kernel patterns of each layer to minimize the computing error in crossbar-based convolutions of CNNs. We demonstrated the proposed methods with implementations of a 4-layer CNN on MNIST, and residual neural network (ResNet) (20, 32, and 56) on CIFAR-10. Simulation results show the proposed methods well mitigate the parasitic resistances in crossbars. With our methods, modern CNNs on crossbars can preserve ideal (software) level classification accuracy with 6-bit ADCs and DACs implementation.},
+journal = {J. Emerg. Technol. Comput. Syst.},
+month = {may},
+articleno = {25},
+numpages = {20},
+keywords = {Resistive crossbar, convolutional neural network, parasitic resistance},
+selected={true}}
+
+@INPROCEEDINGS{9045730,
+
+@misc{zhang2018memristorbased,
+      title={Memristor-based Deep Convolution Neural Network: A Case Study}, 
+      author={Fan Zhang and Miao Hu},
+      year={2018},
+      eprint={1810.02225},
+      archivePrefix={arXiv},
+      primaryClass={cs.NE}
 }
 
-@book{einstein1956investigations,
-  bibtex_show={true},
-  title={Investigations on the Theory of the Brownian Movement},
-  author={Einstein, Albert},
-  year={1956},
-  publisher={Courier Corporation},
-  preview={brownian-motion.gif}
+@misc{zhang2018memristorbased,
+      title={Memristor-based Deep Convolution Neural Network: A Case Study}, 
+      author={Fan Zhang and Miao Hu},
+      year={2018},
+      eprint={1810.02225},
+      archivePrefix={arXiv},
+      primaryClass={cs.NE}
 }
 
-@article{einstein1950meaning,
-  abbr={AJP},
-  bibtex_show={true},
-  title={The meaning of relativity},
-  author={Einstein, Albert and Taub, AH},
-  journal={American Journal of Physics},
-  volume={18},
-  number={6},
-  pages={403--404},
-  year={1950},
-  publisher={American Association of Physics Teachers}
+@inproceedings{10.1145/3526241.3530349,
+author = {Sridharan, Amitesh and Zhang, Fan and Fan, Deliang},
+title = {MnM: A Fast and Efficient Min/Max Searching in MRAM},
+year = {2022},
+isbn = {9781450393225},
+publisher = {Association for Computing Machinery},
+address = {New York, NY, USA},
+url = {https://doi.org/10.1145/3526241.3530349},
+doi = {10.1145/3526241.3530349},
+abstract = {In-Memory Computing (IMC) technology has been considered to be a promising approach to solve well-known memory-wall challenge for data intensive applications. In this paper, we are the first to propose MnM, a novel IMC system with innovative architecture/circuit designs for fast and efficient Min/Max searching computation in emerging Spin-Orbit Torque Magnetic Random Access Memory (SOT-MRAM). Our proposed SOT-MRAM based in-memory logic circuits are specially optimized to perform parallel, one-cycle XNOR logic that are heavily used in the Min/Max searching-in-memory algorithm. Our novel in-memory XNOR circuit also has an overhead of just two transistors per row when compared to most prior methodologies which typically use multiple sense amplifiers or complex CMOS logic gates. We also design all other required peripheral circuits for implementing complete Min/Max searching-in-MRAM computation. Our cross-layer comprehensive experiments on Dijkstra's algorithm and other sorting algorithms in real word datasets show that our MnM could achieve significant performance improvement over CPUs, GPUs, and other competing IMC platforms based on RRAM/MRAM/DRAM.},
+booktitle = {Proceedings of the Great Lakes Symposium on VLSI 2022},
+pages = {39–44},
+numpages = {6},
+keywords = {SOT-MRAM, in-memory-computing, Min/Max},
+location = {Irvine, CA, USA},
+series = {GLSVLSI '22}
 }
 
-@article{PhysRev.47.777,
-  abbr={PhysRev},
-  title={Can Quantum-Mechanical Description of Physical Reality Be Considered Complete?},
-  author={Einstein*†, A. and Podolsky*, B. and Rosen*, N.},
-  abstract={In a complete theory there is an element corresponding to each element of reality. A sufficient condition for the reality of a physical quantity is the possibility of predicting it with certainty, without disturbing the system. In quantum mechanics in the case of two physical quantities described by non-commuting operators, the knowledge of one precludes the knowledge of the other. Then either (1) the description of reality given by the wave function in quantum mechanics is not complete or (2) these two quantities cannot have simultaneous reality. Consideration of the problem of making predictions concerning a system on the basis of measurements made on another system that had previously interacted with it leads to the result that if (1) is false then (2) is also false. One is thus led to conclude that the description of reality as given by a wave function is not complete.},
-  journal={Phys. Rev.},
-  location={New Jersey},
-  volume={47},
-  issue={10},
-  pages={777--780},
-  numpages={0},
-  year={1935},
-  month={May},
-  publisher=aps,
-  doi={10.1103/PhysRev.47.777},
-  url={http://link.aps.org/doi/10.1103/PhysRev.47.777},
-  html={https://journals.aps.org/pr/abstract/10.1103/PhysRev.47.777},
-  pdf={example_pdf.pdf},
-  altmetric={248277},
-  dimensions={true},
-  google_scholar_id={qyhmnyLat1gC},
-  video={https://www.youtube-nocookie.com/embed/aqz-KE-bpKQ},
-  additional_info={. *More Information* can be [found here](https://github.com/alshedivat/al-folio/)},
-  annotation={* Example use of superscripts<br>† Albert Einstein},
-  selected={true},
-  inspirehep_id = {3255}
+@misc{yang2023efficient,
+      title={Efficient Self-supervised Continual Learning with Progressive Task-correlated Layer Freezing}, 
+      author={Li Yang and Sen Lin and Fan Zhang and Junshan Zhang and Deliang Fan},
+      year={2023},
+      eprint={2303.07477},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}
 }
 
-@article{einstein1905molekularkinetischen,
-  title={{\"U}ber die von der molekularkinetischen Theorie der W{\"a}rme geforderte Bewegung von in ruhenden Fl{\"u}ssigkeiten suspendierten Teilchen},
-  author={Einstein, A.},
-  journal={Annalen der physik},
-  volume={322},
-  number={8},
-  pages={549--560},
-  year={1905},
-  publisher={Wiley Online Library}
+@INPROCEEDINGS{10052040,
+  author={Zhang, Fan and Yang, Li and Fan, Deliang},
+  booktitle={2022 56th Asilomar Conference on Signals, Systems, and Computers}, 
+  title={Efficient Multi-task Adaption for Crossbar-based In-Memory Computing}, 
+  year={2022},
+  volume={},
+  number={},
+  pages={328-333},
+  doi={10.1109/IEEECONF56349.2022.10052040}}
+
+@ARTICLE{10.3389/felec.2022.1032485,
+  
+AUTHOR={Zhang, Fan and Yang, Li and Meng, Jian and Seo, Jae-sun and Cao, Yu and Fan, Deliang},   
+	 
+TITLE={XMA2: A crossbar-aware multi-task adaption framework via 2-tier masks},      
+	
+JOURNAL={Frontiers in Electronics},      
+	
+VOLUME={3},           
+	
+YEAR={2022},      
+	  
+URL={https://www.frontiersin.org/articles/10.3389/felec.2022.1032485},       
+	
+DOI={10.3389/felec.2022.1032485},      
+	
+ISSN={2673-5857},   
+   
+ABSTRACT={Recently, ReRAM crossbar-based deep neural network (DNN) accelerator has been widely investigated. However, most prior works focus on single-task inference due to the high energy consumption of weight reprogramming and ReRAM cells’ low endurance issue. Adapting the ReRAM crossbar-based DNN accelerator for multiple tasks has not been fully explored. In this study, we propose XMA<sup>2</sup>, a novel crossbar-aware learning method with a 2-tier masking technique to efficiently adapt a DNN backbone model deployed in the ReRAM crossbar for new task learning. During the XMA<sup>2</sup>-based multi-task adaption (MTA), the tier-1 ReRAM crossbar-based processing-element- (PE-) wise mask is first learned to identify the most critical PEs to be reprogrammed for essential new features of the new task. Subsequently, the tier-2 crossbar column-wise mask is applied within the rest of the weight-frozen PEs to learn a hardware-friendly and column-wise scaling factor for new task learning without modifying the weight values. With such crossbar-aware design innovations, we could implement the required masking operation in an existing crossbar-based convolution engine with minimal hardware/memory overhead to adapt to a new task. The extensive experimental results show that compared with other state-of-the-art multiple-task adaption methods, XMA<sup>2</sup> achieves the highest accuracy on all popular multi-task learning datasets.}
 }
 
-@article{einstein1905movement,
-  abbr={Ann. Phys.},
-  title={Un the movement of small particles suspended in statiunary liquids required by the molecular-kinetic theory 0f heat},
-  author={Einstein, A.},
-  journal={Ann. Phys.},
-  volume={17},
-  pages={549--560},
-  year={1905}
+@INPROCEEDINGS{10052040,
+  author={Zhang, Fan and Yang, Li and Fan, Deliang},
+  booktitle={2022 56th Asilomar Conference on Signals, Systems, and Computers}, 
+  title={Efficient Multi-task Adaption for Crossbar-based In-Memory Computing}, 
+  year={2022},
+  volume={},
+  number={},
+  pages={328-333},
+  doi={10.1109/IEEECONF56349.2022.10052040}}
+
+@ARTICLE{10.3389/felec.2022.1032485,
+  
+AUTHOR={Zhang, Fan and Yang, Li and Meng, Jian and Seo, Jae-sun and Cao, Yu and Fan, Deliang},   
+	 
+TITLE={XMA2: A crossbar-aware multi-task adaption framework via 2-tier masks},      
+	
+JOURNAL={Frontiers in Electronics},      
+	
+VOLUME={3},           
+	
+YEAR={2022},      
+	  
+URL={https://www.frontiersin.org/articles/10.3389/felec.2022.1032485},       
+	
+DOI={10.3389/felec.2022.1032485},      
+	
+ISSN={2673-5857},   
+   
+ABSTRACT={Recently, ReRAM crossbar-based deep neural network (DNN) accelerator has been widely investigated. However, most prior works focus on single-task inference due to the high energy consumption of weight reprogramming and ReRAM cells’ low endurance issue. Adapting the ReRAM crossbar-based DNN accelerator for multiple tasks has not been fully explored. In this study, we propose XMA<sup>2</sup>, a novel crossbar-aware learning method with a 2-tier masking technique to efficiently adapt a DNN backbone model deployed in the ReRAM crossbar for new task learning. During the XMA<sup>2</sup>-based multi-task adaption (MTA), the tier-1 ReRAM crossbar-based processing-element- (PE-) wise mask is first learned to identify the most critical PEs to be reprogrammed for essential new features of the new task. Subsequently, the tier-2 crossbar column-wise mask is applied within the rest of the weight-frozen PEs to learn a hardware-friendly and column-wise scaling factor for new task learning without modifying the weight values. With such crossbar-aware design innovations, we could implement the required masking operation in an existing crossbar-based convolution engine with minimal hardware/memory overhead to adapt to a new task. The extensive experimental results show that compared with other state-of-the-art multiple-task adaption methods, XMA<sup>2</sup> achieves the highest accuracy on all popular multi-task learning datasets.}
 }
 
-@article{einstein1905electrodynamics,
-  title={On the electrodynamics of moving bodies},
-  author={Einstein, A.},
-  year={1905}
+@InProceedings{10.1007/978-3-030-70296-0_54,
+author="Sun, Han
+and Zhang, Fan
+and Zhang, Yunxiang",
+editor="Arabnia, Hamid R.
+and Ferens, Ken
+and de la Fuente, David
+and Kozerenko, Elena B.
+and Olivas Varela, Jos{\'e} Angel
+and Tinetti, Fernando G.",
+title="An LSTM and GAN Based ECG Abnormal Signal Generator",
+booktitle="Advances in Artificial Intelligence and Applied Cognitive Computing",
+year="2021",
+publisher="Springer International Publishing",
+address="Cham",
+pages="743--755",
+abstract="The electrocardiogram (ECG), a recording of the electrical activity of the heart, is commonly used for cardiac analysis, but lack of abnormal ECG signal data restricts the development of high quality automatic auxiliary diagnosis. In this paper, we introduce an LSTM and GAN based ECG abnormal signal generator to alleviate the issue. By training with a small set of real abnormal signals, the proposed generator can learn and produce high quality fake abnormal signals. The fake signals are then combined with real signals to train abnormal ECG classifiers. We show that our method can significantly improve the ability of classifiers in recognizing the uncommon case with a low proportion in the database.",
+isbn="978-3-030-70296-0"
 }
 
-@Article{einstein1905photoelectriceffect,
-  bibtex_show={true},
-  abbr={Ann. Phys.},
-  title="{{\"U}ber einen die Erzeugung und Verwandlung des Lichtes betreffenden heuristischen Gesichtspunkt}",
-  author={Albert Einstein},
-  abstract={This is the abstract text.},
-  journal={Ann. Phys.},
-  volume={322},
-  number={6},
-  pages={132--148},
-  year={1905},
-  doi={10.1002/andp.19053220607},
-  award={Albert Einstein receveid the **Nobel Prize in Physics** 1921 *for his services to Theoretical Physics, and especially for his discovery of the law of the photoelectric effect*},
-  award_name={Nobel Prize}
-}
-
-@book{przibram1967letters,
-  bibtex_show={true},
-  title={Letters on wave mechanics},
-  author={Einstein, Albert and Schrödinger, Erwin and Planck, Max and Lorentz, Hendrik Antoon and Przibram, Karl},
-  year={1967},
-  publisher={Vision},
-  preview={wave-mechanics.gif},
-  abbr={Vision}
-}

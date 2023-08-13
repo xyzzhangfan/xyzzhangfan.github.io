@@ -1,4 +1,4 @@
----
+<!-- ---
 layout: page
 title: projects
 permalink: /projects/
@@ -60,6 +60,6 @@ horizontal: false
       {% include projects.liquid %}
     {% endfor %}
   </div>
-  {% endif %}
-{% endif %}
-</div>
+  {%- endif -%}
+{%- endif -%}
+</div> -->
