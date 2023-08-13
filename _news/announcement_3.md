@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-I started my 3rd time internship at Google TPU group as hardware engineer intern. :sparkles: :smile:
+I started another internship at Google TPU group as hardware engineer intern. :sparkles: :smile:
