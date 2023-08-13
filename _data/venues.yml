@@ -5,5 +5,26 @@
 "PhysRev":
   url: https://journals.aps.org/
 
-"Vision":
-  color: "#009f36"
+"DAC":
+  url: https://www.dac.com
+
+"ICCAD":
+  url: https://iccad.com
+
+"ASP-DAC":
+  url: https://aspdac.gabia.io
+
+"IEEE TMAG":
+  url: https://ieeemagnetics.org/publication/ieee-transactions-magnetics
+
+"IEEE JETCAS":
+  url: https://ieee-cas.org/publication/JETCAS
+
+"DATE":
+  url: https://www.date-conference.com
+
+"ESSCIRC":
+  url: https://ieeexplore.ieee.org/xpl/conhome/1000709/all-proceedings
+
+"arXiv":
+  url: https://arxiv.org
