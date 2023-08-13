@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://xyzzhangfan.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://xyzzhangfan.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2023-08-13T19:02:48+00:00</updated><id>https://xyzzhangfan.github.io/feed.xml</id><title type="html">Fan’s Website</title><subtitle>Goals determine what you going to be! </subtitle><entry><title type="html">Install NVmain from Github 2022</title><link href="https://xyzzhangfan.github.io/blog/2022/Install_NVmain_on_Ubuntu/" rel="alternate" type="text/html" title="Install NVmain from Github 2022"/><published>2022-01-07T00:00:00+00:00</published><updated>2022-01-07T00:00:00+00:00</updated><id>https://xyzzhangfan.github.io/blog/2022/Install_NVmain_on_Ubuntu</id><content type="html" xml:base="https://xyzzhangfan.github.io/blog/2022/Install_NVmain_on_Ubuntu/"><![CDATA[<h1 id="install-nvmain-from-github-2022">Install NVmain from Github 2022</h1> <h2 id="the-nvmain-github-reporsitory-is-outdated-if-you-try-to-compile-it-by-yourself-you-may-encounter-errors-such-as--importerror-no-module-named-gem5_scons-flipnwritecpp13135-error-implicitly-declared-constexpr-nvmnvmaddressnvmaddressconst-nvmnvmaddress-is-deprecated--werrordeprecated-copy--etc">The NVmain github reporsitory is outdated, if you try to compile it by yourself you may encounter errors such as: <code class="language-plaintext highlighter-rouge">ImportError: No module named gem5_scons:</code>, <code class="language-plaintext highlighter-rouge">FlipNWrite.cpp:131:35: error: implicitly-declared ‘constexpr NVM::NVMAddress::NVMAddress(const NVM::NVMAddress&amp;)’ is deprecated [-Werror=deprecated-copy]</code> , etc.</h2> <h2 id="the-following-steps-are-tested-on-ubuntu-2004">The following steps are tested on Ubuntu 20.04</h2> <ol> <li><code class="language-plaintext highlighter-rouge">Git clone https://github.com/SEAL-UCSB/NVmain.git</code></li> <li>install scons : <code class="language-plaintext highlighter-rouge">pip install scons</code></li> <li>if you are using python3 you need conver both SConstruct and SConscript using command <code class="language-plaintext highlighter-rouge">2to3 -w ./SConstruct</code> and <code class="language-plaintext highlighter-rouge">2to3 -w ./SConscript</code></li> <li>Comment out <code class="language-plaintext highlighter-rouge">from gem5_scons import Transform</code> from 36 lines in <code class="language-plaintext highlighter-rouge">./SConscript</code></li> <li>Add the following CCFLAG in to SConstruct to avoid error: <code class="language-plaintext highlighter-rouge">env.Append(CCFLAGS='-Wno-error=deprecated-copy')</code> I am using fast mode so I add it at 35 line. Ref: (https://stackoverflow.com/questions/51863588/warning-definition-of-implicit-copy-constructor-is-deprecated)</li> <li>Run <code class="language-plaintext highlighter-rouge">scons --build-type=fast to build NVmain</code></li> <li>Test <code class="language-plaintext highlighter-rouge">./nvmain.fast Config/PCM_ISSCC_2012_4GB.config</code><img src="https://raw.githubusercontent.com/xyzzhangfan/pictures/main/img/Screen%20Shot%202022-01-07%20at%2011.09.18%20AM.png" alt="Screen Shot 2022-01-07 at 11.09.18 AM"/></li> </ol>]]></content><author><name>xyzzhangfan</name></author><category term="NVmain"/><category term="Linux"/><summary type="html"><![CDATA[Install NVmain from Github 2022]]></summary></entry><entry><title type="html">How to measure the power in Cadence Virtuoso</title><link href="https://xyzzhangfan.github.io/blog/2021/Cadence_power/" rel="alternate" type="text/html" title="How to measure the power in Cadence Virtuoso"/><published>2021-08-13T00:00:00+00:00</published><updated>2021-08-13T00:00:00+00:00</updated><id>https://xyzzhangfan.github.io/blog/2021/Cadence_power</id><content type="html" xml:base="https://xyzzhangfan.github.io/blog/2021/Cadence_power/"><![CDATA[<h2 id="how-to-measure-the-power-in-cadence-virtuoso">How to measure the power in Cadence Virtuoso</h2> <p>1. In ADE-L choose Outputs –&gt; Save All</p> <p><img src="https://raw.githubusercontent.com/xyzzhangfan/pictures/main/img/20210813194158.png" alt="Screen Shot 2021-08-13 at 7.37.49 PM"/></p> <p>2. Select the pwr in output.</p> <p><img src="https://raw.githubusercontent.com/xyzzhangfan/pictures/main/img/20210813194211.png" alt="Screen Shot 2021-08-13 at 7.36.53 PM" width="100%"/></p> <p>3. Run the simulation, in the wave window select Browser –&gt; Results –&gt; Opern Results,. Then select the pdf file.</p> <p><img src="https://raw.githubusercontent.com/xyzzhangfan/pictures/main/img/20210813194225.png" alt="Screen Shot 2021-08-13 at 7.38.22 PM"/></p> <p>4. In the resule browse windows, select tran to see the total power(pwr) or instance power(@[instance name] pwr)</p> <p><img src="https://raw.githubusercontent.com/xyzzhangfan/pictures/main/img/20210813194234.png" alt="Screen Shot 2021-08-13 at 7.38.38 PM"/></p> <p>5. Right click pwr to open calculator for average/peak power expression.</p>]]></content><author><name>xyzzhangfan</name></author><category term="Candence Virtuoso"/><category term="Power Measurement"/><summary type="html"><![CDATA[How to measure the power in Cadence Virtuoso]]></summary></entry><entry><title type="html">Using VCS and DVE to simulate Verilog Code</title><link href="https://xyzzhangfan.github.io/blog/2021/VCS-tutorial/" rel="alternate" type="text/html" title="Using VCS and DVE to simulate Verilog Code"/><published>2021-04-07T00:00:00+00:00</published><updated>2021-04-07T00:00:00+00:00</updated><id>https://xyzzhangfan.github.io/blog/2021/VCS-tutorial</id><content type="html" xml:base="https://xyzzhangfan.github.io/blog/2021/VCS-tutorial/"><![CDATA[<h2 id="using-vcs-and-dve-to-simulate-verilog-code">Using VCS and DVE to simulate Verilog Code</h2> <ol> <li> <p>Writing Verilog with any text editor(i.e. Vim/VS code/Sublime text)</p> </li> <li> <p>Run VCS with the following command:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vcs <span class="nt">-Mupdate</span> <span class="nt">-RPP</span> <span class="nt">-v</span> <span class="o">[</span>YOU_Design_files.v] <span class="nt">-o</span> demo <span class="nt">-full64</span> <span class="nt">-debug_all</span>
+<span class="c"># For example:</span>
+vcs <span class="s1">'-Mupdate'</span> <span class="s1">'-RPP'</span> <span class="s1">'-sverilog'</span> <span class="s1">'stdlib_10lpe_ccs_20210527.v'</span> <span class="s1">'tb_Top_decoder_wo_scan_chain.sv'</span> <span class="s1">'Top_decoder_wo_scan_chain.sv'</span> <span class="s1">'WL_decoder_state_machine.4.0.syn.v'</span> <span class="s1">'SL_decoder_state_machine.4.0.syn.v'</span> <span class="s1">'BL_decoder_no_state_machine.4.0.syn.v'</span> <span class="s1">'Logical_part.syn.v'</span> <span class="s1">'-top'</span> <span class="s1">'tb_top_wo_scan_chain'</span> <span class="s1">'-o'</span> <span class="s1">'decoder_wo_scan_chain'</span> <span class="s1">'-full64'</span> <span class="s1">'-debug_all'</span>
+</code></pre></div> </div> </li> <li> <p>A executable demo file now appared in your current folder. Run it with GUI:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./demo <span class="nt">-gui</span>
+</code></pre></div> </div> </li> <li>DVE now opened with your design. Select the signals then right click them, choose add waves -&gt; new waves.</li> <li>From Simulator -&gt; Start to start the simulation, you now should have the waves.</li> </ol>]]></content><author><name>xyzzhangfan</name></author><category term="VCS"/><category term="Verilog"/><category term="Chip Design"/><summary type="html"><![CDATA[Using VCS and DVE to simulate Verilog Code]]></summary></entry><entry><title type="html">How to solve the error “Errors Font Helvetica, Times-Roman is not embedded” in IEEE PDF eXpress</title><link href="https://xyzzhangfan.github.io/blog/2021/Solving-IEEE-PDF-eXpress-font-not-embedded/" rel="alternate" type="text/html" title="How to solve the error “Errors Font Helvetica, Times-Roman is not embedded” in IEEE PDF eXpress"/><published>2021-04-03T00:00:00+00:00</published><updated>2021-04-03T00:00:00+00:00</updated><id>https://xyzzhangfan.github.io/blog/2021/Solving-IEEE-PDF-eXpress-font-not-embedded</id><content type="html" xml:base="https://xyzzhangfan.github.io/blog/2021/Solving-IEEE-PDF-eXpress-font-not-embedded/"><![CDATA[<h2 id="how-to-solve-the-error-errors-font-helvetica--times-roman-is-not-embedded--in-ieee-pdf-express">How to solve the error “Errors: Font Helvetica, Times-Roman is not embedded “ in IEEE PDF eXpress</h2> <p>This error is due to some fonts in your uploaded PDF is not embedded. In my case, I have some figures saved as pdf format. Those figures contain the un-embedded fonts. So what I need to do is finding which figure contains the un-embedded fonts then convert it to embedded fonds. This step can be easily done by using Adobe acrobat with the following steps.</p> <ol> <li> <p>First, check the document properties by right clicking on the image then choose “Document Properties”. In the font tag you will see if there is any font is not embedded.</p> <p><img src="https://raw.githubusercontent.com/xyzzhangfan/pictures/main/img/20210403005922.png" alt="Properties"/></p> <p><img src="https://raw.githubusercontent.com/xyzzhangfan/pictures/main/img/20210403005935.png" alt="before_conversion"/></p> </li> <li> <p>Clicking the File ==&gt; Save as Other ==&gt; Optimized PDF…</p> <p><img src="https://raw.githubusercontent.com/xyzzhangfan/pictures/main/img/20210403005917.png" alt="save_as"/></p> </li> <li> <p>In the poped out new window change the marked region to “Acrobat 4.0 and later”. Then click “OK” and save it.</p> <p><img src="https://raw.githubusercontent.com/xyzzhangfan/pictures/main/img/20210403005912.png" alt="Screen Shot 2021-04-03 at 12.25.34 AM"/></p> </li> <li> <p>Open the file you just saved, and check the “Document Properties” again. You should see all fonts are embedded now.</p> <p><img src="https://raw.githubusercontent.com/xyzzhangfan/pictures/main/img/20210403005906.png" alt="after_conversion"/></p> </li> <li> <p>Re-compile your manuscript and upload to IEEE-PDF-eXpress again, you should not have this error anymore.</p> </li> </ol>]]></content><author><name>xyzzhangfan</name></author><category term="PDF"/><category term="Adobe acrobat"/><category term="IEEE PDF eXpress"/><summary type="html"><![CDATA[How to solve the error “Errors: Font Helvetica, Times-Roman is not embedded “ in IEEE PDF eXpress]]></summary></entry><entry><title type="html">Some Usefull Commands in Cadence</title><link href="https://xyzzhangfan.github.io/blog/2021/usefull_command_in_cadence/" rel="alternate" type="text/html" title="Some Usefull Commands in Cadence"/><published>2021-03-31T00:00:00+00:00</published><updated>2021-03-31T00:00:00+00:00</updated><id>https://xyzzhangfan.github.io/blog/2021/usefull_command_in_cadence</id><content type="html" xml:base="https://xyzzhangfan.github.io/blog/2021/usefull_command_in_cadence/"><![CDATA[<h3 id="unlock-file-in-cadence">Unlock file in cadence</h3> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>find <span class="nb">.</span> <span class="nt">-name</span> <span class="s1">'*.cdslck'</span> <span class="nt">-exec</span> <span class="nb">rm</span> <span class="o">{}</span> <span class="se">\;</span>
+</code></pre></div></div> <hr/> <h3 id="source-ic617cshrc">Source ic617.cshrc</h3> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">echo</span> <span class="s2">"alias cadence_tool 'source /usr/local/cadence/IC617.cshrc; cd ~/cadence617;virtuoso&amp;'"</span> <span class="o">&gt;&gt;</span> ~/.tcshrc
+</code></pre></div></div> <hr/> <h3 id="change-default-simulator-to-spectre">Change default simulator to spectre:</h3> <p>In .cdsenv:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>asimenv.startup       simulator       string  "spectre"
+</code></pre></div></div> <p>In .cdsini:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>	    (if (isFile "./.cdsenv")
+		(envLoadVals 
+		 ?envFile "./.cdsenv"
+		 ?tool "ALL"))
+</code></pre></div></div> <hr/> <h3 id="add-models-in-default">add models in default:</h3> <p>In .cdsini:</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>asiSetEnvOptionVal(asiGetTool('spectre) "modelFiles"
+	list(
+	list("/usr/local/cadence/NCSU/ncsu-cdk-1.5.1/models/spectre/standalone/tsmc25N.m")
+	list("/usr/local/cadence/NCSU/ncsu-cdk-1.5.1/models/spectre/standalone/tsmc25P.m")
+	)
+     )
+</code></pre></div></div> <hr/> <h3 id="check-the-vnc-session-number">Check the VNC session number:</h3> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ps <span class="nt">-ef</span> | <span class="nb">grep</span> <span class="sb">`</span><span class="nb">whoami</span><span class="sb">`</span> | <span class="nb">grep </span>vnc | <span class="nb">grep </span>Xorg
+</code></pre></div></div> <hr/>]]></content><author><name>xyzzhangfan</name></author><category term="Cadence"/><category term="Linux"/><category term="bash"/><summary type="html"><![CDATA[Unlock file in cadence]]></summary></entry><entry><title type="html">Installing tmux without root access</title><link href="https://xyzzhangfan.github.io/blog/2021/Installing_tmux_without_root/" rel="alternate" type="text/html" title="Installing tmux without root access"/><published>2021-03-13T00:00:00+00:00</published><updated>2021-03-13T00:00:00+00:00</updated><id>https://xyzzhangfan.github.io/blog/2021/Installing_tmux_without_root</id><content type="html" xml:base="https://xyzzhangfan.github.io/blog/2021/Installing_tmux_without_root/"><![CDATA[<h2 id="installing-tmux-without-root-access">Installing tmux without root access</h2> <p>The following script was adapted from <a href="https://gist.github.com/ryin/3106801,">https://gist.github.com/ryin/3106801,</a>with some improvements and broken link fixes. Have tested on Ubuntu 20.04.</p> <h3 id="adding-homelocalbin-to-your-path-to-use-tmux">Adding $HOME/local/bin to your PATH to use tmux.</h3> <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c">#!/bin/bash</span>
+
+<span class="c"># Script for installing tmux on systems where you don't have root access.</span>
+
+<span class="c"># tmux will be installed in $HOME/local/bin.</span>
+
+<span class="c"># It's assumed that wget and a C/C++ compiler are installed.</span>
+
+  
+
+<span class="c"># exit on error</span>
+
+<span class="nb">set</span> <span class="nt">-e</span>
+
+  
+
+<span class="nv">TMUX_VERSION</span><span class="o">=</span>3.1b
+
+  
+
+<span class="c"># create our directories</span>
+
+<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$HOME</span>/local <span class="nv">$HOME</span>/tmux_tmp
+
+<span class="nb">cd</span> <span class="nv">$HOME</span>/tmux_tmp
+
+  
+
+<span class="c"># download source files for tmux, libevent, and ncurses</span>
+
+wget https://github.com/tmux/tmux/releases/download/<span class="k">${</span><span class="nv">TMUX_VERSION</span><span class="k">}</span>/tmux-<span class="k">${</span><span class="nv">TMUX_VERSION</span><span class="k">}</span>.tar.gz
+wget https://github.com/downloads/libevent/libevent/libevent-2.0.19-stable.tar.gz
+wget ftp://ftp.gnu.org/gnu/ncurses/ncurses-6.2.tar.gz
+
+  
+
+<span class="c"># extract files, configure, and compile</span>
+
+  
+
+<span class="c">############</span>
+
+<span class="c"># libevent #</span>
+
+<span class="c">############</span>
+
+<span class="nb">tar </span>xvzf libevent-2.0.19-stable.tar.gz
+
+<span class="nb">cd </span>libevent-2.0.19-stable
+
+./configure <span class="nt">--prefix</span><span class="o">=</span><span class="nv">$HOME</span>/local <span class="nt">--disable-shared</span>
+
+make <span class="nt">-j</span>
+make <span class="nb">install</span> 
+
+<span class="c">############</span>
+<span class="nb">cd</span> ..
+
+  
+
+<span class="c">############</span>
+
+<span class="c"># ncurses  #</span>
+
+<span class="c">############</span>
+
+<span class="nb">tar </span>xvzf ncurses-6.2.tar.gz
+
+<span class="nb">cd </span>ncurses-6.2
+
+./configure <span class="nt">--prefix</span><span class="o">=</span><span class="nv">$HOME</span>/local
+
+make <span class="nt">-j</span>
+make <span class="nb">install</span>  
+<span class="c">############</span>
+
+<span class="nb">cd</span> ..
+
+  
+
+<span class="c">############</span>
+
+<span class="c"># tmux #</span>
+
+<span class="c">############</span>
+
+<span class="nb">tar </span>xvzf tmux-<span class="k">${</span><span class="nv">TMUX_VERSION</span><span class="k">}</span>.tar.gz
+
+<span class="nb">cd </span>tmux-<span class="k">${</span><span class="nv">TMUX_VERSION</span><span class="k">}</span>
+
+<span class="c">#./autogen.sh</span>
+
+./configure <span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">"-I</span><span class="nv">$HOME</span><span class="s2">/local/include -I</span><span class="nv">$HOME</span><span class="s2">/local/include/ncurses"</span> <span class="nv">LDFLAGS</span><span class="o">=</span><span class="s2">"-L</span><span class="nv">$HOME</span><span class="s2">/local/lib -L</span><span class="nv">$HOME</span><span class="s2">/local/include/ncurses -L</span><span class="nv">$HOME</span><span class="s2">/local/include"</span>
+
+<span class="nv">CPPFLAGS</span><span class="o">=</span><span class="s2">"-I</span><span class="nv">$HOME</span><span class="s2">/local/include -I</span><span class="nv">$HOME</span><span class="s2">/local/include/ncurses"</span> <span class="nv">LDFLAGS</span><span class="o">=</span><span class="s2">"-static -L</span><span class="nv">$HOME</span><span class="s2">/local/include -L</span><span class="nv">$HOME</span><span class="s2">/local/include/ncurses -L</span><span class="nv">$HOME</span><span class="s2">/local/lib"</span> make
+
+<span class="nb">cp </span>tmux <span class="nv">$HOME</span>/local/bin
+
+<span class="nb">cd</span> ..
+
+  
+
+<span class="c"># cleanup</span>
+
+<span class="nb">rm</span> <span class="nt">-rf</span> <span class="nv">$HOME</span>/tmux_tmp
+
+  
+
+<span class="nb">echo</span>  <span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/local/bin/tmux is now available. You can optionally add </span><span class="nv">$HOME</span><span class="s2">/local/bin to your PATH."</span>
+</code></pre></div></div>]]></content><author><name>xyzzhangfan</name></author><category term="Linux"/><category term="bash"/><category term="Tmux"/><summary type="html"><![CDATA[Installing tmux without root access]]></summary></entry><entry><title type="html">Xcode Commond Line Installation</title><link href="https://xyzzhangfan.github.io/blog/2018/Xcode%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7%E7%AE%A1%E7%90%86/" rel="alternate" type="text/html" title="Xcode Commond Line Installation"/><published>2018-05-05T00:00:00+00:00</published><updated>2018-05-05T00:00:00+00:00</updated><id>https://xyzzhangfan.github.io/blog/2018/Xcode%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7%E7%AE%A1%E7%90%86</id><content type="html" xml:base="https://xyzzhangfan.github.io/blog/2018/Xcode%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7%E7%AE%A1%E7%90%86/"><![CDATA[<h2 id="installing">Installing</h2> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcode-select --install
+</code></pre></div></div> <p><img src="https://i.loli.net/2021/03/27/pHZPI6Rq7TNL2CG.png" alt="xcodeInstall.png"/></p> <h2 id="switch-xcode-version">Switch Xcode version</h2> <h3 id="show-the-current-version-of-xcode">Show the current version of xcode</h3> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ xcode-select --print-path
+</code></pre></div></div> <h3 id="choose-the-default-xcode-version">Choose the default Xcode version</h3> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo xcode-select -switch /Applications/Xcode.app
+</code></pre></div></div>]]></content><author><name>xyzzhangfan</name></author><category term="Xcode"/><category term="iOS"/><summary type="html"><![CDATA[Installing]]></summary></entry></feed>
