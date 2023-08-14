@@ -6,4 +6,4 @@ inline: true
 related_posts: false
 ---
 
-I stated my Spring internship at Ansys as Semiconductor R&D intern.
+I started my Spring internship at Ansys as Semiconductor R&D intern.
