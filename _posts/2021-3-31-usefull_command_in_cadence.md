@@ -61,4 +61,9 @@ In .cdsini:
 ps -ef | grep `whoami` | grep vnc | grep Xorg
 ```
 
+### Kill the VNC session:
+```bash
+vncserver -kill :<Session Number>
+```
+
 ***
