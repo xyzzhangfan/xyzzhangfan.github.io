@@ -20,7 +20,5 @@ ERROR: Unexpected bus error encountered in worker. This might be caused by insuf
 The solution is adding the argument "--ipc=host" when running the docker container.
 
 References:
-
-[1]: https://docs.docker.com/engine/reference/run/#ipc-settings---ipc
-
-[2]: https://discuss.pytorch.org/t/training-crashes-due-to-insufficient-shared-memory-shm-nn-dataparallel/26396
+- https://docs.docker.com/engine/reference/run/#ipc-settings---ipc
+- https://discuss.pytorch.org/t/training-crashes-due-to-insufficient-shared-memory-shm-nn-dataparallel/26396
