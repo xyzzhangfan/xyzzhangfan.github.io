@@ -11,9 +11,9 @@ tags:
 ---
 
 ## Goal:
-Server A: A cloud server(i.e. AWS/Google Cloud/Oracle Cloud) with public IP address
-Server B: A internal server which may need vpn for access.
-Client C: A personal labtop/desktop trying to access the Server B without typing password to VPN everytime.
+* Server A: A cloud server(i.e. AWS/Google Cloud/Oracle Cloud) with public IP address
+* Server B: A internal server which may need vpn for access.
+* Client C: A personal labtop/desktop trying to access the Server B without typing password to VPN everytime.
 
 ## Method: 
 1. Server B using ssh reverse proxy connect to server A and bind to a port (i.e. 12345).
