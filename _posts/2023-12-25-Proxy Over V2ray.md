@@ -10,17 +10,17 @@ tags:
     - Linux
 ---
 
-##Goal:
+## Goal:
 Server A: A cloud server(i.e. AWS/Google Cloud/Oracle Cloud) with public IP address
 Server B: A internal server which may need vpn for access.
 Client C: A personal labtop/desktop trying to access the Server B without typing password to VPN everytime.
 
-##Method: 
+## Method: 
 1. Server B using ssh reverse proxy connect to server A and bind to a port (i.e. 12345).
 2. Using the -D flag in ssh to setup Socks5 proxy.
 3. Setup V2ray on Server A and route all the V2ray traffic through the ssh turnnel.
 
-##On Server A:
+## On Server A:
 1. Install V2Ray
 > bash -c "$(curl -L https:/github.com/v2fly/fhs-install-v2ray/raw/master/install-release.sh)"
 
@@ -86,8 +86,8 @@ sudo iptables -F
 sudo iptables -X
 ```
 
-##Pre-request using ssh for reverse proxy (On Server B): 
-1. Install autossh on server
+## Pre-request using ssh for reverse proxy (On Server B): 
+1. Install autossh on server B
 > sudo apt install autossh
 1.1 install without sudo
 
