@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-My two papers are accepted by DAC 2024 and one paper is accepted by IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems(TCAD)!
+My two papers have been accepted by <span style="color : red">DAC 2024</span> and one paper has been accepted by IEEE Transactions on Computer-Aided Design of Integrated Circuits and Systems (<span style="color : red">TCAD</span>)!
