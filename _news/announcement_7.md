@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Successfully defended my PhD at Johns Hopkins University, ready to start a new journey!😄
+Successfully defended my PhD at Johns Hopkins University, ready to start a new journey! 😄
