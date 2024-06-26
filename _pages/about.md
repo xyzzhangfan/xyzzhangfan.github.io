@@ -16,10 +16,10 @@ selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-Hey, this is **Fan Zhang**, a Ph.D candidate with Department of Electrical and Computer Engineering, Johns Hopkins University advised by [Prof. Deliang Fan](https://www.ece.jhu.edu/dfan/).
+Hey, this is **Fan Zhang**, I obtained my Ph.D from the Department of Electrical and Computer Engineering, Johns Hopkins University advised by [Prof. Deliang Fan](https://www.ece.jhu.edu/dfan/).
 
 Study on ReRam, In-memory computing, and software/hardware co-design fields. 
-I have authored and co-authored research papers in top-tier EDA conferences including, DAC, DATE, ICCAD, ASP-DAC, ESSCIRC, etc
+I have authored and co-authored research papers in top-tier EDA/SSCS conferences/journals including, DAC, JSSC, TCAD, CICC, DATE, ICCAD, ASP-DAC, ESSCIRC, etc
 
 My main research interests and publications cover the following topics:
 * In-Memory Computing Based on Volatile & Non-Volatile Memories
