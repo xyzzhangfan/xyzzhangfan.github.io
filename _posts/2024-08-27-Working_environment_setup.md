@@ -1,18 +1,12 @@
 ---
-layout: distill
+layout:     post
 title:      Setup the working environment
 date:       2024-08-27
 author:     xyzzhangfan
 header-img: img/post-bg-kuaidi.jpg
 catalog: true
-
 toc:
-  - name: Install and setup Oh-my-zsh
-  - name: Install plugins for Oh-my-zsh
-  - name: Install Vim/nvim with plugins
-  - name: Install and setup git
-  - name: Install Tmux
-  - name: Install ctags with VIM
+  sidebar: left
 
 tags: Linux
 
