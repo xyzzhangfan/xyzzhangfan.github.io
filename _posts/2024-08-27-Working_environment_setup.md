@@ -18,7 +18,7 @@ tags: Linux
 ---
 
 ## Goal
-1. Install and setup Oh-my-zsh with plugins.
+1. Install and setup `Oh-my-zsh` with plugins.
 2. Install and setup VIM with plugins.
 3. Install and setup git.
 4. Install `Oh-my-TMUX`.
