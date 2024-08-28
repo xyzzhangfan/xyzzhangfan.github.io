@@ -5,10 +5,8 @@ date:       2024-08-27
 author:     xyzzhangfan
 header-img: img/post-bg-kuaidi.jpg
 catalog: true
-toc: true
 tags:
     - Linux
----
 toc:
   - name: Install and setup `Oh-my-zsh`
   - name: Install plugins for `Oh-my-zsh`
@@ -16,6 +14,8 @@ toc:
   - name: Install and setup git
   - name: Install Tmux
   - name: Install ctags with VIM
+---
+
 ## Goal
 1. Install and setup `Oh-my-zsh` with plugins.
 2. Install and setup VIM with plugins.
