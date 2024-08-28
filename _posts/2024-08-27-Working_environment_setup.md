@@ -7,6 +7,7 @@ header-img: img/post-bg-kuaidi.jpg
 catalog: true
 tags:
     - Linux
+
 toc:
   - name: Install and setup `Oh-my-zsh`
   - name: Install plugins for `Oh-my-zsh`
@@ -14,6 +15,7 @@ toc:
   - name: Install and setup git
   - name: Install Tmux
   - name: Install ctags with VIM
+
 ---
 
 ## Goal
