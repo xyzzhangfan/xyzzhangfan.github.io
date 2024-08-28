@@ -256,6 +256,10 @@ defaults:
       path: "assets"
     values:
       sitemap: false
+  - scope:
+      path: ""
+    values:
+      toc: true
 
 sass:
   style: compressed
