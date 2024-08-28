@@ -5,9 +5,17 @@ date:       2024-08-27
 author:     xyzzhangfan
 header-img: img/post-bg-kuaidi.jpg
 catalog: true
+toc: true
 tags:
     - Linux
 ---
+toc:
+  - name: Install and setup `Oh-my-zsh`
+  - name: Install plugins for `Oh-my-zsh`
+  - name: Install Vim/nvim with plugins
+  - name: Install and setup git
+  - name: Install Tmux
+  - name: Install ctags with VIM
 ## Goal
 1. Install and setup `Oh-my-zsh` with plugins.
 2. Install and setup VIM with plugins.
@@ -15,11 +23,11 @@ tags:
 4. Install `Oh-my-TMUX`.
 5. Use ctag to generate tags for vim
   
-* Install and setup `Oh-my-zsh`: 
+## Install and setup `Oh-my-zsh`: 
   ```bash
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   ```
-* Install plugins for `Oh-my-zsh`:
+## Install plugins for `Oh-my-zsh`:
   
   1. Install the theme Powerline10k:
       ```bash
@@ -53,10 +61,9 @@ tags:
       )
       ZSH_TMUX_AUTOSTART=true # auto start tmux session.
       ```
-* Install Vim/nvim with plugins:
+## Install Vim/nvim with plugins:
   
-[!Note]
-  Some plugins such as verible-verilog-ls needs VIM9 to show the warning during editing.
+[!Note] Some plugins such as verible-verilog-ls needs VIM9 to show the warning during editing.
 
   1. nvim could be easily installed on ubuntu: ```sudo apt install neovim```
   2. nvim could use your ~/.vimrc file by adding following into your `~/.config/nvim/init.vim`:
@@ -161,7 +168,7 @@ tags:
       augroup END
       ```
 
-* Install and setup git
+## Install and setup git
 
   1. Install: ```sudo apt install git-all```
   2. Setup:
@@ -176,7 +183,7 @@ tags:
       ```
   [!Note] Use `git log --all --decorate --oneline --graph` to show a nice git commit history.
 
-* Install Tmux
+## Install Tmux
   ```bash
   $ git clone https://github.com/gpakosz/.tmux.git "/path/to/oh-my-tmux"
   $ mkdir -p "~/.config/tmux"
@@ -184,7 +191,7 @@ tags:
   $ cp "/path/to/oh-my-tmux/.tmux.conf.local" "~/.config/tmux/tmux.conf.local"
   ```
 
-* Install ctags with:
+## Install ctags with VIM
     ```bash
       $ git clone https://github.com/universal-ctags/ctags.git
       $ cd ctags
