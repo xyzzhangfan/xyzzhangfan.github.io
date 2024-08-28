@@ -1,4 +1,132 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://xyzzhangfan.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://xyzzhangfan.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-06-26T16:07:46+00:00</updated><id>https://xyzzhangfan.github.io/feed.xml</id><title type="html">Fan’s Website</title><subtitle>Goals determine what you going to be! </subtitle><entry><title type="html">Socks proxy over V2ray</title><link href="https://xyzzhangfan.github.io/blog/2023/Proxy-Over-V2ray/" rel="alternate" type="text/html" title="Socks proxy over V2ray"/><published>2023-12-25T00:00:00+00:00</published><updated>2023-12-25T00:00:00+00:00</updated><id>https://xyzzhangfan.github.io/blog/2023/Proxy%20Over%20V2ray</id><content type="html" xml:base="https://xyzzhangfan.github.io/blog/2023/Proxy-Over-V2ray/"><![CDATA[<h2 id="goal">Goal:</h2> <ul> <li>Server A: A cloud server(i.e. AWS/Google Cloud/Oracle Cloud) with public IP address</li> <li>Server B: A internal server which may need vpn for access.</li> <li>Client C: A personal labtop/desktop trying to access the Server B without typing password to VPN everytime.</li> </ul> <h2 id="method">Method:</h2> <ol> <li>Server B using ssh reverse proxy connect to server A and bind to a port (i.e. 12345).</li> <li>Using the -D flag in ssh to setup Socks5 proxy.</li> <li>Setup V2ray on Server A and route all the V2ray traffic through the ssh turnnel.</li> </ol> <h2 id="on-server-a">On Server A:</h2> <ol> <li>Install V2Ray <blockquote> <p>bash -c “$(curl -L https:/github.com/v2fly/fhs-install-v2ray/raw/master/install-release.sh)”</p> </blockquote> </li> <li>Generate uuid <blockquote> <p>v2ray uuid</p> </blockquote> </li> <li>Setup config.json</li> </ol> <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://xyzzhangfan.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://xyzzhangfan.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-08-28T02:55:48+00:00</updated><id>https://xyzzhangfan.github.io/feed.xml</id><title type="html">Fan’s Website</title><subtitle>Goals determine what you going to be! </subtitle><entry><title type="html">Setup the working environment</title><link href="https://xyzzhangfan.github.io/blog/2024/Working_environment_setup/" rel="alternate" type="text/html" title="Setup the working environment"/><published>2024-08-27T00:00:00+00:00</published><updated>2024-08-27T00:00:00+00:00</updated><id>https://xyzzhangfan.github.io/blog/2024/Working_environment_setup</id><content type="html" xml:base="https://xyzzhangfan.github.io/blog/2024/Working_environment_setup/"><![CDATA[<h2 id="goal">Goal</h2> <ol> <li>Install and setup <code class="language-plaintext highlighter-rouge">Oh-my-zsh</code> with plugins.</li> <li>Install and setup VIM with plugins.</li> <li>Install and setup git.</li> <li>Install <code class="language-plaintext highlighter-rouge">Oh-my-TMUX</code>.</li> <li>Use ctag to generate tags for vim</li> </ol> <ul> <li>Install and setup <code class="language-plaintext highlighter-rouge">Oh-my-zsh</code>: <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="si">)</span><span class="s2">"</span>
+</code></pre></div> </div> </li> <li> <p>Install plugins for <code class="language-plaintext highlighter-rouge">Oh-my-zsh</code>:</p> <ol> <li>Install the theme Powerline10k: <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git clone <span class="nt">--depth</span><span class="o">=</span>1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k <span class="nb">echo</span> <span class="s1">'source ~/powerlevel10k/powerlevel10k.zsh-theme'</span> <span class="o">&gt;&gt;</span>~/.zshrc
+</code></pre></div> </div> </li> <li>Install plugin zsh-autosuggestions: <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git clone https://github.com/zsh-users/zsh-autosuggestions <span class="k">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="p">~/.oh-my-zsh/custom</span><span class="k">}</span>/plugins/zsh-autosuggestions
+</code></pre></div> </div> </li> <li>Install plugin zsh-syntax-highlighting: <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git clone https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="k">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="p">~/.oh-my-zsh/custom</span><span class="k">}</span>/plugins/zsh-syntax-highlighting
+</code></pre></div> </div> </li> <li>update the plugin section in your ~/.zshrc file: <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">ZSH_THEME</span><span class="o">=</span><span class="s2">"powerlevel10k/powerlevel10k"</span> <span class="c">#place your theme with powerline10k</span>
+ <span class="nv">plugins</span><span class="o">=(</span> 
+   <span class="c"># other plugins...</span>
+   zsh-syntax-highlighting
+   zsh-autosuggestions<span class="o">)</span>
+   <span class="nv">ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE</span><span class="o">=</span><span class="s2">"fg=#19a9ec,bold,underline"</span>
+   <span class="nb">source</span> <span class="nv">$ZSH</span>/oh-my-zsh.sh
+   <span class="c"># Bindkey</span>
+   bindkey <span class="s1">'^j'</span> autosuggest-accept <span class="c"># ctrl+j to accept suggestion.</span>
+</code></pre></div> </div> </li> <li>Install the Tmux2 plugin(optional): <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">plugins</span><span class="o">=(</span>
+   <span class="c"># other plugins</span>
+   tmux
+ <span class="o">)</span>
+ <span class="nv">ZSH_TMUX_AUTOSTART</span><span class="o">=</span><span class="nb">true</span> <span class="c"># auto start tmux session.</span>
+</code></pre></div> </div> </li> </ol> </li> <li>Install Vim/nvim with plugins:</li> </ul> <p>[!Note] Some plugins such as verible-verilog-ls needs VIM9 to show the warning during editing.</p> <ol> <li>nvim could be easily installed on ubuntu: <code class="language-plaintext highlighter-rouge">sudo apt install neovim</code></li> <li>nvim could use your ~/.vimrc file by adding following into your <code class="language-plaintext highlighter-rouge">~/.config/nvim/init.vim</code>: <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nb">set </span>runtimepath^<span class="o">=</span>~/.vim runtimepath+<span class="o">=</span>~/.vim/after
+ <span class="nb">let</span> &amp;packpath<span class="o">=</span>&amp;runtimepath
+ <span class="nb">source</span> ~/.vimrc
+</code></pre></div> </div> </li> <li>Install Vundle to manage VIM plugins: <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+</code></pre></div> </div> <p>put the following into your <code class="language-plaintext highlighter-rouge">~/.vimrc</code>, create the file if you don’t have one.</p> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> set tabstop = 2
+ set shiftwidth = 2
+ set expandtab = 2
+ syntax enable
+ set nocompatible              " be iMproved, required
+ filetype off                  " required
+ let mapleader = ","
+ let g:NERDTreeWinPos = "bottom"
+ let NERDTreeShowHidden = 0
+ let NERDTreeIgnore = ['\.pyc$', '__pycache__']
+ let g:NERDTreeWinSize = 15
+ map &lt;leader&gt;nn :NERDTreeToggle&lt;cr&gt;
+ map &lt;leader&gt;nb :NERDTreeFromBookmark
+ map &lt;leader&gt;nf :NERDTreeFind&lt;cr&gt;
+ map &lt;leader&gt;f  :Files&lt;CR&gt;
+ " set the runtime path to include Vundle and initialize
+ set rtp+=~/.vim/bundle/Vundle.vim
+ call vundle#begin()
+ " alternatively, pass a path where Vundle should install plugins
+ "call vundle#begin('~/some/path/here')
+
+ " let Vundle manage Vundle, required
+
+ " My vim plugins:
+ Plugin 'VundleVim/Vundle.vim'
+ Plugin 'preservim/nerdcommenter.vim'
+ Plugin 'preservim/nerdtree.vim'
+ Plugin 'jiangmiao/autopairs.vim'
+ Plugin 'skywind3000/vim-auto-popmenu'
+ Plugin 'airblade/vim-gitgutter'
+ Plugin 'prabirshrestha/vim-lsp'
+ Plugin 'junegunn/fzf'
+ Plugin 'junegunn/fzf.vim'
+
+ " All of your Plugins must be added before the following line
+ call vundle#end()            " required
+ filetype plugin indent on    " required
+ " To ignore plugin indent changes, instead use:
+ "filetype plugin on
+ inoremap &lt;expr&gt; &lt;Tab&gt;  pumvisible() ? "\&lt;C-n&gt;" : "\&lt;Tab&gt;"
+ inoremap &lt;expr&gt; &lt;S-Tab&gt;  pumvisible() ? "\&lt;C-p&gt;" : "\&lt;S-Tab&gt;"
+ set completeopt=menu,menuone,noselect
+
+ "
+ " Brief help
+ " :PluginList       - lists configured plugins
+ " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+ " :PluginSearch foo - searches for foo; append `!` to refresh local cache
+ " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+ "
+ " see :h vundle for more details or wiki for FAQ
+ " Put your non-Plugin stuff after this line
+ " This section to the end is optional, add it if you want to use verible-verilog-ls with vim.
+ if executable('verible-verilog-ls')
+     au User lsp_setup call lsp#register_server({
+         \ 'name': 'verible-verilog-ls',
+         \ 'cmd': {server_info-&gt;[PATH_TO_VERIBLE_VERILOG_LS]},
+         \ 'allowlist': ['verilog', 'systemverilog'],
+         \ })
+ endif
+ function! s:on_lsp_buffer_enabled() abort
+   setlocal omnifunc=lsp#complete
+   setlocal signcolumn=yes
+   if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+   nmap &lt;buffer&gt; gd &lt;plug&gt;(lsp-definition)
+   nmap &lt;buffer&gt; gs &lt;plug&gt;(lsp-document-symbol-search)
+   nmap &lt;buffer&gt; gS &lt;plug&gt;(lsp-workspace-symbol-search)
+   nmap &lt;buffer&gt; gr &lt;plug&gt;(lsp-references)
+   nmap &lt;buffer&gt; gi &lt;plug&gt;(lsp-implementation)
+   nmap &lt;buffer&gt; gt &lt;plug&gt;(lsp-type-definition)
+   nmap &lt;buffer&gt; &lt;leader&gt;rn &lt;plug&gt;(lsp-rename)
+   nmap &lt;buffer&gt; [g &lt;plug&gt;(lsp-previous-diagnostic)
+   nmap &lt;buffer&gt; ]g &lt;plug&gt;(lsp-next-diagnostic)
+   nmap &lt;buffer&gt; K &lt;plug&gt;(lsp-hover)
+   nnoremap &lt;buffer&gt; &lt;expr&gt;&lt;c-f&gt; lsp#scroll(+4)
+   nnoremap &lt;buffer&gt; &lt;expr&gt;&lt;c-d&gt; lsp#scroll(-4)
+
+   let g:lsp_format_sync_timeout = 1000
+   autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+        
+   " refer to doc to add more commands
+ endfunction
+
+ augroup lsp_install
+     au!
+     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
+     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+ augroup END
+</code></pre></div> </div> </li> </ol> <ul> <li> <p>Install and setup git</p> <ol> <li>Install: <code class="language-plaintext highlighter-rouge">sudo apt install git-all</code></li> <li>Setup: <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git config --global --get user.email
+ git config --global pull.rebase true
+ git config --global diff.tool vimdiff
+ git config --global difftool.prompt false
+ git config merge.tool vimdiff
+ git config merge.conflictstyle diff3
+ git config mergetool.prompt false
+</code></pre></div> </div> <p>[!Note] Use <code class="language-plaintext highlighter-rouge">git log --all --decorate --oneline --graph</code> to show a nice git commit history.</p> </li> </ol> </li> <li>Install Tmux <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$ </span>git clone https://github.com/gpakosz/.tmux.git <span class="s2">"/path/to/oh-my-tmux"</span>
+<span class="nv">$ </span><span class="nb">mkdir</span> <span class="nt">-p</span> <span class="s2">"~/.config/tmux"</span>
+<span class="nv">$ </span><span class="nb">ln</span> <span class="nt">-s</span> <span class="s2">"/path/to/oh-my-tmux/.tmux.conf"</span> <span class="s2">"~/.config/tmux/tmux.conf"</span>
+<span class="nv">$ </span><span class="nb">cp</span> <span class="s2">"/path/to/oh-my-tmux/.tmux.conf.local"</span> <span class="s2">"~/.config/tmux/tmux.conf.local"</span>
+</code></pre></div> </div> </li> <li>Install ctags with: <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nv">$ </span>git clone https://github.com/universal-ctags/ctags.git
+    <span class="nv">$ </span><span class="nb">cd </span>ctags
+    <span class="nv">$ </span>./autogen.sh
+    <span class="nv">$ </span>./configure  <span class="c"># use --prefix=/where/you/want to override installation directory, defaults to /usr/local</span>
+    <span class="nv">$ </span>make
+    <span class="nv">$ </span>make <span class="nb">install</span> <span class="c"># may require extra privileges depending on where to install</span>
+</code></pre></div> </div> <p>Get into the root directory of your project and run <code class="language-plaintext highlighter-rouge">ctags -R *</code> to generate the tags file.</p> <p>Put following line into your <code class="language-plaintext highlighter-rouge">~/.vimrc</code> file to automatically load the tags file:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nb">set </span><span class="nv">tags</span><span class="o">=</span>./tags<span class="p">;</span>,tags<span class="p">;</span>
+</code></pre></div> </div> <p>Now you can use <code class="language-plaintext highlighter-rouge">ctrl + ]</code> to jump to the defination of function/variable. Use <code class="language-plaintext highlighter-rouge">ctrl+ t</code> to go back.</p> <p>[!note] Added <code class="language-plaintext highlighter-rouge">nnoremap &lt;C-]&gt; :tag &lt;C-R&gt;&lt;C-W&gt;&lt;CR&gt;</code> into your <code class="language-plaintext highlighter-rouge">~/.vimrc</code> to avoid the lazy load of tags file.</p> </li> </ul>]]></content><author><name>xyzzhangfan</name></author><category term="Linux"/><summary type="html"><![CDATA[Goal Install and setup Oh-my-zsh with plugins. Install and setup VIM with plugins. Install and setup git. Install Oh-my-TMUX. Use ctag to generate tags for vim Install and setup Oh-my-zsh: sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" Install plugins for Oh-my-zsh: Install the theme Powerline10k: git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' &gt;&gt;~/.zshrc Install plugin zsh-autosuggestions: git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions Install plugin zsh-syntax-highlighting: git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting update the plugin section in your ~/.zshrc file: ZSH_THEME="powerlevel10k/powerlevel10k" #place your theme with powerline10k plugins=( # other plugins... zsh-syntax-highlighting zsh-autosuggestions) ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#19a9ec,bold,underline" source $ZSH/oh-my-zsh.sh # Bindkey bindkey '^j' autosuggest-accept # ctrl+j to accept suggestion. Install the Tmux2 plugin(optional): plugins=( # other plugins tmux ) ZSH_TMUX_AUTOSTART=true # auto start tmux session. Install Vim/nvim with plugins: [!Note] Some plugins such as verible-verilog-ls needs VIM9 to show the warning during editing.]]></summary></entry><entry><title type="html">Socks proxy over V2ray</title><link href="https://xyzzhangfan.github.io/blog/2023/Proxy-Over-V2ray/" rel="alternate" type="text/html" title="Socks proxy over V2ray"/><published>2023-12-25T00:00:00+00:00</published><updated>2023-12-25T00:00:00+00:00</updated><id>https://xyzzhangfan.github.io/blog/2023/Proxy%20Over%20V2ray</id><content type="html" xml:base="https://xyzzhangfan.github.io/blog/2023/Proxy-Over-V2ray/"><![CDATA[<h2 id="goal">Goal:</h2> <ul> <li>Server A: A cloud server(i.e. AWS/Google Cloud/Oracle Cloud) with public IP address</li> <li>Server B: A internal server which may need vpn for access.</li> <li>Client C: A personal labtop/desktop trying to access the Server B without typing password to VPN everytime.</li> </ul> <h2 id="method">Method:</h2> <ol> <li>Server B using ssh reverse proxy connect to server A and bind to a port (i.e. 12345).</li> <li>Using the -D flag in ssh to setup Socks5 proxy.</li> <li>Setup V2ray on Server A and route all the V2ray traffic through the ssh turnnel.</li> </ol> <h2 id="on-server-a">On Server A:</h2> <ol> <li>Install V2Ray <blockquote> <p>bash -c “$(curl -L https:/github.com/v2fly/fhs-install-v2ray/raw/master/install-release.sh)”</p> </blockquote> </li> <li>Generate uuid <blockquote> <p>v2ray uuid</p> </blockquote> </li> <li>Setup config.json</li> </ol> <div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
   </span><span class="nl">"inbounds"</span><span class="p">:</span><span class="w"> </span><span class="p">[{</span><span class="w">
     </span><span class="nl">"port"</span><span class="p">:</span><span class="w">  </span><span class="s2">"YOUR_PORT"</span><span class="p">,</span><span class="w"> </span><span class="err">//</span><span class="w"> </span><span class="err">Your</span><span class="w"> </span><span class="err">desired</span><span class="w"> </span><span class="err">port</span><span class="w">
     </span><span class="nl">"protocol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"vmess"</span><span class="p">,</span><span class="w">
@@ -173,7 +301,4 @@ make <span class="nb">install</span>
   
 
 <span class="nb">echo</span>  <span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/local/bin/tmux is now available. You can optionally add </span><span class="nv">$HOME</span><span class="s2">/local/bin to your PATH."</span>
-</code></pre></div></div>]]></content><author><name>xyzzhangfan</name></author><category term="Linux"/><category term="bash"/><category term="Tmux"/><summary type="html"><![CDATA[Installing tmux without root access]]></summary></entry><entry><title type="html">Xcode Commond Line Installation</title><link href="https://xyzzhangfan.github.io/blog/2018/Xcode%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7%E7%AE%A1%E7%90%86/" rel="alternate" type="text/html" title="Xcode Commond Line Installation"/><published>2018-05-05T00:00:00+00:00</published><updated>2018-05-05T00:00:00+00:00</updated><id>https://xyzzhangfan.github.io/blog/2018/Xcode%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7%E7%AE%A1%E7%90%86</id><content type="html" xml:base="https://xyzzhangfan.github.io/blog/2018/Xcode%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%B7%A5%E5%85%B7%E7%AE%A1%E7%90%86/"><![CDATA[<h2 id="installing">Installing</h2> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcode-select --install
-</code></pre></div></div> <p><img src="https://i.loli.net/2021/03/27/pHZPI6Rq7TNL2CG.png" alt="xcodeInstall.png"/></p> <h2 id="switch-xcode-version">Switch Xcode version</h2> <h3 id="show-the-current-version-of-xcode">Show the current version of xcode</h3> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ xcode-select --print-path
-</code></pre></div></div> <h3 id="choose-the-default-xcode-version">Choose the default Xcode version</h3> <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ sudo xcode-select -switch /Applications/Xcode.app
-</code></pre></div></div>]]></content><author><name>xyzzhangfan</name></author><category term="Xcode"/><category term="iOS"/><summary type="html"><![CDATA[Installing]]></summary></entry></feed>
+</code></pre></div></div>]]></content><author><name>xyzzhangfan</name></author><category term="Linux"/><category term="bash"/><category term="Tmux"/><summary type="html"><![CDATA[Installing tmux without root access]]></summary></entry></feed>
