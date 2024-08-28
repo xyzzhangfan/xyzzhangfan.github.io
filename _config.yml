@@ -286,6 +286,8 @@ jekyll-archives:
 
 # display_tags: ['formatting', 'images', 'links', 'math', 'code'] # these tags will be displayed on the front page of your blog
 # display_categories: ['blockquotes'] # these categories will be displayed on the front page of your blog
+display_tags: ["Linux", "Pytorch", "Docker", "Nvidia", "Memory"] # these tags will be displayed on the front page of your blog
+# display_categories: ["external-services"] # these categories will be displayed on the front page of your blog
 
 # -----------------------------------------------------------------------------
 # Jekyll Scholar
