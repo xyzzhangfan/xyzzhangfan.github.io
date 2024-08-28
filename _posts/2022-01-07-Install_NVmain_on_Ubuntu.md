@@ -8,6 +8,7 @@ header-img: img/post-bg-kuaidi.jpg
 catalog: true
 tags:
     - NVmain
+    - Memory
     - Linux
 ---
 
