@@ -58,8 +58,7 @@ tags: Linux
       ZSH_TMUX_AUTOSTART=true # auto start tmux session.
       ```
 ## Install Vim/nvim with plugins
-  
-[!Note] Some plugins such as verible-verilog-ls needs VIM9 to show the warning during editing.
+{% include note.html content="Some plugins such as verible-verilog-ls needs VIM9 to show the warning during editing." %}
 
   1. nvim could be easily installed on ubuntu: ```sudo apt install neovim```
   2. nvim could use your ~/.vimrc file by adding following into your `~/.config/nvim/init.vim`:
