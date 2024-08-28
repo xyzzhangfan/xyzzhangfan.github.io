@@ -259,7 +259,8 @@ defaults:
   - scope:
       path: "_posts"
     values:
-      toc: true
+      toc: 
+        sidebar: left
 
 sass:
   style: compressed
