@@ -63,7 +63,7 @@ tags: Linux
       )
       ZSH_TMUX_AUTOSTART=true # auto start tmux session.
       ```
-## Install Vim/nvim with plugins:
+## Install Vim/nvim with plugins
   
 [!Note] Some plugins such as verible-verilog-ls needs VIM9 to show the warning during editing.
 
