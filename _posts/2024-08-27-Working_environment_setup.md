@@ -9,6 +9,7 @@ tags:
     - Linux
 
 toc:
+  - name: Goal
   - name: Install and setup `Oh-my-zsh`
   - name: Install plugins for `Oh-my-zsh`
   - name: Install Vim/nvim with plugins
