@@ -5,18 +5,9 @@ date:       2024-08-27
 author:     xyzzhangfan
 header-img: img/post-bg-kuaidi.jpg
 catalog: true
+toc: true
 tags:
     - Linux
-
-toc:
-  - name: Goal
-  - name: Install and setup `Oh-my-zsh`
-  - name: Install plugins for `Oh-my-zsh`
-  - name: Install Vim/nvim with plugins
-  - name: Install and setup git
-  - name: Install Tmux
-  - name: Install ctags with VIM
-
 ---
 
 ## Goal
