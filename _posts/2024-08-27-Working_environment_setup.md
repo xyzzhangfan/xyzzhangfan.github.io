@@ -7,8 +7,8 @@ header-img: img/post-bg-kuaidi.jpg
 catalog: true
 
 toc:
-  - name: Install and setup `Oh-my-zsh`
-  - name: Install plugins for `Oh-my-zsh`
+  - name: Install and setup Oh-my-zsh
+  - name: Install plugins for Oh-my-zsh
   - name: Install Vim/nvim with plugins
   - name: Install and setup git
   - name: Install Tmux
@@ -18,17 +18,17 @@ tags: Linux
 ---
 
 ## Goal
-1. Install and setup `Oh-my-zsh` with plugins.
+1. Install and setup Oh-my-zsh with plugins.
 2. Install and setup VIM with plugins.
 3. Install and setup git.
 4. Install `Oh-my-TMUX`.
 5. Use ctag to generate tags for vim
   
-## Install and setup `Oh-my-zsh`: 
+## Install and setup Oh-my-zsh: 
   ```bash
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
   ```
-## Install plugins for `Oh-my-zsh`:
+## Install plugins for Oh-my-zsh:
   
   1. Install the theme Powerline10k:
       ```bash
