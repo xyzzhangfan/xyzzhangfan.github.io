@@ -13,7 +13,8 @@ nav_order: 1
 
 <!-- <iframe src="https://docs.google.com/gview?url=https://jasongfleischer.github.io/assets/pdf/cv-academic-current.pdf&embedded=true" style="width:800px; height:1024px;" frameborder="0"></iframe> -->
 
-<iframe src="https://drive.google.com/file/d/13uEhRASSGYwE9KbXX6CC_2ucVHPBZA5L/preview" width="800" height="1024" allow="autoplay"></iframe>
+<iframe src="https://drive.google.com/file/d/1wMbajphIQhQ6YvOvkTttNkrbaZDSRBZG/preview" width="800" height="1024" allow="autoplay"></iframe>
+
 
 <!--- the original al-folio method, add years list to use --->
 <!-- {% for y in page.years %}
