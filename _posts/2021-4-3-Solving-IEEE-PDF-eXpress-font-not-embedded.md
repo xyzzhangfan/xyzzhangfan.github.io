@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      How to solve the error "Errors Font Helvetica, Times-Roman is not embedded" in IEEE PDF eXpress
+title:      How to solve the error <Errors Font Helvetica, Times-Roman is not embedded> in IEEE PDF eXpress
 subtitle:   Solving with Adobe acrobat
 date:       2021-04-03
 author:     xyzzhangfan
