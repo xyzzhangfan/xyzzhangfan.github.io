@@ -49,6 +49,8 @@ rss_icon: false
 navbar_fixed: true
 footer_fixed: false
 search_enabled: true
+socials_in_search: true
+bib_search: true
 
 # Dimensions
 max_width: 930px
@@ -79,7 +81,8 @@ pinterest_id: # your pinterest id
 publons_id: # your ID on Publons
 quora_username: # your Quora username
 research_gate_profile: # your profile on ResearchGate
-scholar_userid: qc6CJjYAAAAJ # your Google Scholar ID
+linkedin_username: fan-zhang-07231993 # your LinkedIn user name
+scholar_userid: ymDjlAsAAAAJ # your Google Scholar ID
 scopus_id: # your profile on Scopus
 semanticscholar_id: # your Semantic Scholar ID
 spotify_id: # your spotify id
@@ -117,7 +120,7 @@ blog_name: Fan's blog # blog_name will be displayed in your blog page
 blog_nav_title: blog # your blog must have a title for it to be displayed in the nav bar
 # blog_description: a simple whitespace theme for academics
 permalink: /blog/:year/:title/
-lsi: false # produce an index for related posts
+lsi: false# produce an index for related posts
 
 # Pagination
 pagination:
