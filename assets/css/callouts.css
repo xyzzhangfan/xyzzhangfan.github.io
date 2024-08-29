@@ -77,3 +77,18 @@
   padding-left: 60px;
 }
 
+.callout .callout-text strong {
+  font-weight: bold; /* Ensure bold text is visible */
+}
+
+.callout .callout-text em {
+  font-style: italic; /* Ensure italic text is visible */
+}
+
+.callout strong {
+  color: #000; /* Adjust color for bold text */
+}
+
+.callout em {
+  color: #333; /* Adjust color for italic text */
+}

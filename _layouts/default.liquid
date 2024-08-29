@@ -39,7 +39,7 @@
               <nav id="toc-sidebar" class="sticky-top"></nav>
             </div>
             <!-- main content area -->
-            <div class="col-sm-9">{{ content }}</div>
+            <div class="col-sm-9">{{ content | callout }}</div>
           </div>
         {% endif %}
       {% else %}

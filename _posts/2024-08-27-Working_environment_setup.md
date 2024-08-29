@@ -18,7 +18,7 @@ tags: Linux
 3. Install and setup git.
 4. Install `Oh-my-TMUX`.
 5. Use ctag to generate tags for vim
-  
+
 ## Install and setup Oh-my-zsh: 
   ```bash
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
