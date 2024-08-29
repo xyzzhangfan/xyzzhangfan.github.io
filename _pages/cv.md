@@ -4,7 +4,7 @@ permalink: /CV/
 title: CV
 years: []
 nav: true
-nav_order: 1
+nav_order: 7
 ---
 
 <div class="publications">
