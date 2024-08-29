@@ -25,40 +25,7 @@ tags: Linux
   ```
 ## Install plugins for Oh-my-zsh:
   
-  1. Install the theme Powerline10k:
-      ```bash
-      git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ~/powerlevel10k echo 'source ~/powerlevel10k/powerlevel10k.zsh-theme' >>~/.zshrc
-      ```
-  2. Install plugin zsh-autosuggestions:
-      ```bash
-      git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-      ```
-  3. Install plugin zsh-syntax-highlighting:
-      ```bash
-      git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-      ```
-  4. update the plugin section in your ~/.zshrc file:
-      ```bash
-      ZSH_THEME="powerlevel10k/powerlevel10k" #place your theme with powerline10k
-      plugins=( 
-        # other plugins...
-        zsh-syntax-highlighting
-        zsh-autosuggestions)
-        ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#19a9ec,bold,underline"
-        source $ZSH/oh-my-zsh.sh
-        # Bindkey
-        bindkey '^j' autosuggest-accept # ctrl+j to accept suggestion.
-      ```
-  5. Install the Tmux2 plugin(optional):
-      ```bash
-      plugins=(
-        # other plugins
-        tmux
-      )
-      ZSH_TMUX_AUTOSTART=true # auto start tmux session.
-      ```
-## Install Vim/nvim with plugins
-[!Note] Some plugins such as verible-verilog-ls needs VIM9 to show the warning during editing.
+[!note]Some plugins such as verible-verilog-ls needs VIM9 to show the warning during editing.
 
   1. nvim could be easily installed on ubuntu: ```sudo apt install neovim```
   2. nvim could use your ~/.vimrc file by adding following into your `~/.config/nvim/init.vim`:
@@ -176,7 +143,7 @@ tags: Linux
       git config merge.conflictstyle diff3
       git config mergetool.prompt false
       ```
-  [!Note] Use `git log --all --decorate --oneline --graph` to show a nice git commit history.
+  [!note]Use `git log --all --decorate --oneline --graph` to show a nice git commit history.
 
 ## Install Tmux
   ```bash
@@ -204,4 +171,4 @@ tags: Linux
 
   Now you can use `ctrl + ]` to jump to the defination of function/variable. Use `ctrl+ t` to go back.
 
-  [!note] Added ```nnoremap <C-]> :tag <C-R><C-W><CR>``` into your `~/.vimrc` to avoid the lazy load of tags file.
+  [!note]Added ```nnoremap <C-]> :tag <C-R><C-W><CR>``` into your `~/.vimrc` to avoid the lazy load of tags file.

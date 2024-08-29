@@ -1,0 +1,79 @@
+/* assets/css/callouts.css */
+.callout {
+  padding: 15px;
+  margin: 15px 0;
+  border: 1px solid transparent;
+  border-left-width: 5px;
+  border-radius: 4px;
+  position: relative;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333333; /* Darker text color for better readability */
+  background-color: #f9f9f9;
+}
+
+.callout::before {
+  font-weight: bold;
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 28px; /* Larger icon size */
+  color: inherit; /* Icon color matches text color */
+}
+
+.callout.note::before {
+  content: '💡'; /* Light Bulb icon for info */
+  color: #5bc0de; /* Icon color to match the border */
+}
+
+.callout.warning::before {
+  content: '⚠️'; /* Warning icon */
+  color: #f0ad4e;
+}
+
+.callout.info::before {
+  content: '💡'; /* Light Bulb icon for info */
+  color: #5bc0de;
+}
+
+.callout.success::before {
+  content: '✅'; /* Success icon */
+  color: #5cb85c;
+}
+
+.callout.danger::before {
+  content: '❌'; /* Danger icon */
+  color: #d9534f;
+}
+
+.callout.note {
+  border-left-color: #5bc0de;
+  background-color: #e6f7ff; /* Light blue background */
+}
+
+.callout.warning {
+  border-left-color: #f0ad4e;
+  background-color: #fff3cd; /* Light yellow background */
+}
+
+.callout.info {
+  border-left-color: #5bc0de;
+  background-color: #e6f7ff; /* Light blue background */
+}
+
+.callout.success {
+  border-left-color: #5cb85c;
+  background-color: #d4edda; /* Light green background */
+}
+
+.callout.danger {
+  border-left-color: #d9534f;
+  background-color: #f8d7da; /* Light red background */
+}
+
+/* Add padding-left to make room for the icon */
+.callout {
+  padding-left: 60px;
+}
+
