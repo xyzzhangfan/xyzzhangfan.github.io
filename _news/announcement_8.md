@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Glad to be a member of TPC (Technical Program Committee) for 2025 DATE (Design Automation and Test in Europe).
+Glad to be a member of TPC (Technical Program Committee) for 2025 DATE (Design Automation and Test in Europe) conference.
