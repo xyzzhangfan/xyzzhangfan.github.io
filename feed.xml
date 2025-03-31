@@ -1,4 +1,178 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.4">Jekyll</generator><link href="https://xyzzhangfan.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://xyzzhangfan.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2024-09-30T06:08:35+00:00</updated><id>https://xyzzhangfan.github.io/feed.xml</id><title type="html">Fan’s Website</title><subtitle>Goals determine what you going to be! </subtitle><entry><title type="html">Setup the working environment</title><link href="https://xyzzhangfan.github.io/blog/2024/Working_environment_setup/" rel="alternate" type="text/html" title="Setup the working environment"/><published>2024-08-27T00:00:00+00:00</published><updated>2024-08-27T00:00:00+00:00</updated><id>https://xyzzhangfan.github.io/blog/2024/Working_environment_setup</id><content type="html" xml:base="https://xyzzhangfan.github.io/blog/2024/Working_environment_setup/"><![CDATA[<h2 id="goal">Goal</h2> <ol> <li>Install and setup <code class="language-plaintext highlighter-rouge">Oh-my-zsh</code> with plugins.</li> <li>Install and setup VIM with plugins.</li> <li>Install and setup git.</li> <li>Install <code class="language-plaintext highlighter-rouge">Oh-my-TMUX</code>.</li> <li>Use ctag to generate tags for vim</li> </ol> <h2 id="install-and-setup-oh-my-zsh">Install and setup <code class="language-plaintext highlighter-rouge">Oh-my-zsh</code>:</h2> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  sh <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="si">)</span><span class="s2">"</span>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://xyzzhangfan.github.io/feed.xml" rel="self" type="application/atom+xml"/><link href="https://xyzzhangfan.github.io/" rel="alternate" type="text/html" hreflang="en"/><updated>2025-03-31T03:00:43+00:00</updated><id>https://xyzzhangfan.github.io/feed.xml</id><title type="html">Fan’s Website</title><subtitle>Goals determine what you going to be! </subtitle><entry><title type="html">Convert data between FP32 and FP8(E4M3)</title><link href="https://xyzzhangfan.github.io/blog/2025/Convert_fp32_and_fp8_e4m3/" rel="alternate" type="text/html" title="Convert data between FP32 and FP8(E4M3)"/><published>2025-03-30T00:00:00+00:00</published><updated>2025-03-30T00:00:00+00:00</updated><id>https://xyzzhangfan.github.io/blog/2025/Convert_fp32_and_fp8_e4m3</id><content type="html" xml:base="https://xyzzhangfan.github.io/blog/2025/Convert_fp32_and_fp8_e4m3/"><![CDATA[<h2 id="goal">Goal</h2> <p>Open Computing Project (OCP) announced <a href="https://www.opencompute.org/documents/ocp-8-bit-floating-point-specification-ofp8-revision-1-0-2023-12-01-pdf-1">OCP 8-bit Floating Point Specification (OFP8)</a>. This post discusses how to convert FP32 to FP8(E4M3) and FP8(E4M3) back to FP32.</p> <h2 id="fp8e4m3-brief-intro">FP8(E4M3) brief intro</h2> <p>Similar to the IEEE 754, OFP8 representation consists of sign, exponent, and mantissa fields. For E4M3, it 1 bit for sign, 4 bits for exponent, and 3 bit for mantissa.</p> <p>OFP8 has 2 range: normal and sub-normal</p> <p>For normal number: $v = (-1)^S \times 2^{E - \text{bias}} \times (1 + 2^{-m} \times M)$</p> <p>For sub-normal number(where Exponent fileds are 0): $v = (-1)^S \times 2^{1 - \text{bias}} \times (0 + 2^{-m} \times M)$</p> <p>i.e. for normal value: 0_0001_000 –&gt; $(-1)^0 \times 2^{(1-7)} \times (1 + 2^{-3} \times 0)$, the bias for E4M3 is 7.</p> <p>The subnormal helps to extend the representive range for E4M3. Without subnormal, the minimum value E4M3 can represent is $2^{-7} \times (1 + 2^{-3})$. But in subnormal, the minimun value is $2^{-9}$.</p> <p>Here are some specific encoding for E4M3:</p> <table> <thead> <tr> <th>Category</th> <th>E4M3</th> </tr> </thead> <tbody> <tr> <td><strong>Infinities</strong></td> <td>N/A</td> </tr> <tr> <td><strong>NaN</strong></td> <td>S.1111.111₂</td> </tr> <tr> <td><strong>Zeros</strong></td> <td>S.0000.000₂</td> </tr> <tr> <td><strong>Max normal number</strong></td> <td>S.1111.110₂ = ±448</td> </tr> <tr> <td><strong>Min normal number</strong></td> <td>S.0001.000₂ = ±2⁻⁶</td> </tr> <tr> <td><strong>Max subnormal number</strong></td> <td>S.0000.111₂ = ±0.875 × 2⁻⁶</td> </tr> <tr> <td><strong>Min subnormal number</strong></td> <td>S.0000.001₂ = ±2⁻⁹</td> </tr> <tr> <td><strong>Dynamic range</strong></td> <td>18 binades</td> </tr> </tbody> </table> <h2 id="fp32-to-e4m3">FP32 to E4M3</h2> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
+</span> <span class="cp">#include</span> <span class="cpf">&lt;iomanip&gt;</span><span class="cp">
+</span> <span class="cp">#include</span> <span class="cpf">&lt;cstdint&gt;</span><span class="cp">
+</span> <span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span> <span class="cp">#include</span> <span class="cpf">&lt;cstdlib&gt;</span><span class="cp">
+</span>
+ <span class="kt">float</span> <span class="nf">E4M3ToFloat</span><span class="p">(</span><span class="kt">uint8_t</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+     <span class="kt">uint8_t</span> <span class="n">bits</span> <span class="o">=</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">value</span><span class="p">);</span>
+     <span class="k">if</span> <span class="p">((</span><span class="n">bits</span> <span class="o">&amp;</span> <span class="mh">0x7f</span><span class="p">)</span> <span class="o">==</span> <span class="mh">0x7f</span><span class="p">)</span> <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">nanf</span><span class="p">(</span><span class="s">""</span><span class="p">);</span> <span class="c1">// Return Nan value</span>
+
+     <span class="kt">uint32_t</span> <span class="n">sign</span> <span class="o">=</span>  <span class="p">(</span><span class="n">bits</span> <span class="o">&gt;&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x1</span><span class="p">;</span> <span class="c1">// 1-bit sign</span>
+     <span class="kt">uint32_t</span> <span class="n">e4m3_exponent</span> <span class="o">=</span> <span class="p">(</span><span class="n">bits</span> <span class="o">&gt;&gt;</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xf</span><span class="p">;</span> <span class="c1">// 4 bit exp</span>
+     <span class="kt">uint32_t</span> <span class="n">e4m3_mantissa</span> <span class="o">=</span> <span class="n">bits</span> <span class="o">&amp;</span> <span class="mh">0x7</span><span class="p">;</span> <span class="c1">// 3 bit mantissa</span>
+     <span class="kt">int32_t</span> <span class="n">exponent</span> <span class="o">=</span> <span class="n">e4m3_exponent</span> <span class="o">-</span> <span class="mi">7</span><span class="p">;</span>
+     <span class="kt">uint32_t</span> <span class="n">float_exponent</span> <span class="o">=</span> <span class="n">exponent</span> <span class="o">+</span> <span class="mi">127</span><span class="p">;</span>
+     <span class="kt">uint32_t</span> <span class="n">result</span><span class="p">;</span>
+     <span class="kt">float</span> <span class="n">floatValue</span><span class="p">;</span>
+
+     <span class="k">if</span> <span class="p">(</span><span class="n">e4m3_exponent</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+         <span class="c1">// normal number</span>
+         <span class="n">result</span> <span class="o">=</span>  <span class="n">sign</span> <span class="o">&lt;&lt;</span> <span class="mi">31</span> <span class="o">|</span> <span class="n">float_exponent</span> <span class="o">&lt;&lt;</span> <span class="mi">23</span> <span class="o">|</span> <span class="n">e4m3_mantissa</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">23</span> <span class="o">-</span> <span class="mi">3</span><span class="p">);</span>
+     <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+         <span class="c1">// sub-normal number</span>
+         <span class="k">if</span> <span class="p">(</span><span class="n">e4m3_mantissa</span> <span class="o">&gt;=</span> <span class="mh">0x4</span><span class="p">)</span> <span class="p">{</span>
+             <span class="c1">// 2^-7</span>
+           <span class="n">result</span> <span class="o">=</span> <span class="n">sign</span> <span class="o">&lt;&lt;</span> <span class="mi">31</span> <span class="o">|</span> <span class="p">(</span><span class="n">float_exponent</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">23</span> <span class="o">|</span> <span class="p">(</span><span class="n">e4m3_mantissa</span> <span class="o">&amp;</span> <span class="mh">0x3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">23</span> <span class="o">-</span><span class="mi">2</span><span class="p">);</span>
+
+         <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">e4m3_mantissa</span> <span class="o">&gt;</span> <span class="mh">0x1</span><span class="p">)</span> <span class="p">{</span>
+             <span class="c1">// 2^-8</span>
+           <span class="n">result</span> <span class="o">=</span> <span class="n">sign</span> <span class="o">&lt;&lt;</span> <span class="mi">31</span> <span class="o">|</span> <span class="p">(</span><span class="n">float_exponent</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">23</span> <span class="o">|</span> <span class="p">(</span><span class="n">e4m3_mantissa</span> <span class="o">&amp;</span> <span class="mh">0x1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="mi">23</span> <span class="o">-</span><span class="mi">1</span><span class="p">);</span>
+
+         <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">e4m3_mantissa</span> <span class="o">==</span> <span class="mh">0x1</span><span class="p">)</span> <span class="p">{</span>
+             <span class="c1">// 2^-9</span>
+           <span class="n">result</span> <span class="o">=</span> <span class="n">sign</span> <span class="o">&lt;&lt;</span> <span class="mi">31</span> <span class="o">|</span> <span class="p">(</span><span class="n">float_exponent</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="mi">23</span><span class="p">;</span>
+         <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+             <span class="c1">// return out of range</span>
+           <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">nanf</span><span class="p">(</span><span class="s">""</span><span class="p">);</span>
+         <span class="p">}</span>
+
+     <span class="p">}</span>
+     <span class="n">floatValue</span> <span class="o">=</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">float</span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">result</span><span class="p">);</span>
+     <span class="k">return</span> <span class="n">floatValue</span><span class="p">;</span>
+
+ <span class="p">}</span>
+
+ <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+     <span class="kt">uint32_t</span> <span class="n">temp</span><span class="p">;</span>
+     <span class="kt">char</span> <span class="n">cont</span> <span class="o">=</span> <span class="sc">'y'</span><span class="p">;</span>
+
+     <span class="c1">// Loop to repeatedly accept input</span>
+     <span class="k">while</span> <span class="p">(</span><span class="n">cont</span> <span class="o">==</span> <span class="sc">'y'</span> <span class="o">||</span> <span class="n">cont</span> <span class="o">==</span> <span class="sc">'Y'</span><span class="p">)</span> <span class="p">{</span>
+         <span class="c1">// Prompt the user to enter a float value</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Enter a E4M3 value in Hex: "</span><span class="p">;</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">std</span><span class="o">::</span><span class="n">hex</span> <span class="o">&gt;&gt;</span> <span class="n">temp</span><span class="p">;</span>  <span class="c1">// Read input from the user</span>
+         <span class="kt">uint8_t</span> <span class="n">value</span> <span class="o">=</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+
+         <span class="c1">// Call the function to convert</span>
+         <span class="kt">float</span> <span class="n">result</span> <span class="o">=</span> <span class="n">E4M3ToFloat</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+
+         <span class="c1">// Print the result</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"float representation of E4M3 number 0x"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">setw</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span>
+ <span class="n">setfill</span><span class="p">(</span><span class="sc">'0'</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="s">" is "</span> <span class="o">&lt;&lt;</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+         <span class="c1">// Ask if the user wants to continue</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Do you want to enter another value? (y/n): "</span><span class="p">;</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">cont</span><span class="p">;</span>  <span class="c1">// Read 'y' or 'n' for continuing or exiting</span>
+     <span class="p">}</span>
+
+     <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Exiting program."</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// Exit successfully</span>
+ <span class="p">}</span>
+</code></pre></div></div> <p>Run it:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>clang++ <span class="nt">-o</span> fp32 FP32TOFP8.cc
+./fp32
+Enter a E4M3 value <span class="k">in </span>Hex: 7e
+float representation of E4M3 number 0x7e is 448
+Do you want to enter another value? <span class="o">(</span>y/n<span class="o">)</span>: y
+Enter a E4M3 value <span class="k">in </span>Hex: 07
+float representation of E4M3 number 0x07 is 0.0136719
+Do you want to enter another value? <span class="o">(</span>y/n<span class="o">)</span>: y
+Enter a E4M3 value <span class="k">in </span>Hex: 08
+float representation of E4M3 number 0x08 is 0.015625
+Do you want to enter another value? <span class="o">(</span>y/n<span class="o">)</span>: n
+</code></pre></div></div> <h2 id="e4m3-to-fp32">E4M3 to FP32</h2> <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="cp">#include</span> <span class="cpf">&lt;cmath&gt;</span><span class="cp">
+</span> <span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span> <span class="cp">#include</span> <span class="cpf">&lt;cstdlib&gt;</span><span class="cp">
+</span>
+ <span class="kt">uint8_t</span> <span class="nf">FloatToE4M3</span><span class="p">(</span><span class="kt">float</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+     <span class="c1">// Handle special cases (NaN and Infinity)</span>
+     <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">isnan</span><span class="p">(</span><span class="n">value</span><span class="p">))</span> <span class="k">return</span> <span class="mh">0xFF</span><span class="p">;</span>  <span class="c1">// NaN is 0xFF in e4m3</span>
+     <span class="k">if</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">isinf</span><span class="p">(</span><span class="n">value</span><span class="p">))</span> <span class="k">return</span> <span class="p">(</span><span class="n">value</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="mh">0x7F</span> <span class="o">:</span> <span class="mh">0xFF</span><span class="p">;</span>  <span class="c1">// Infinity, 0x7F for +Inf, 0xFF for -Inf</span>
+
+     <span class="c1">// Handle zero case</span>
+     <span class="k">if</span> <span class="p">(</span><span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="k">return</span> <span class="mh">0x00</span><span class="p">;</span>  <span class="c1">// Zero is 0x00 in e4m3</span>
+     <span class="c1">// Extract the sign, exponent, and mantissa of the FP32</span>
+     <span class="kt">uint32_t</span> <span class="n">bits</span> <span class="o">=</span> <span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="kt">uint32_t</span><span class="o">*&gt;</span><span class="p">(</span><span class="o">&amp;</span><span class="n">value</span><span class="p">);</span>
+
+     <span class="c1">// Extract the sign (1 bit)</span>
+     <span class="kt">uint8_t</span> <span class="n">sign</span> <span class="o">=</span> <span class="p">(</span><span class="n">bits</span> <span class="o">&gt;&gt;</span> <span class="mi">31</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x1</span><span class="p">;</span>
+
+     <span class="c1">// Extract the exponent (8 bits for FP32)</span>
+     <span class="kt">int32_t</span> <span class="n">exponent</span> <span class="o">=</span> <span class="p">((</span><span class="n">bits</span> <span class="o">&gt;&gt;</span> <span class="mi">23</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="p">)</span> <span class="o">-</span> <span class="mi">127</span><span class="p">;</span>  <span class="c1">// Bias for FP32 is 127</span>
+
+     <span class="c1">// Extract the mantissa (23 bits for FP32)</span>
+     <span class="kt">uint32_t</span> <span class="n">mantissa</span> <span class="o">=</span> <span class="n">bits</span> <span class="o">&amp;</span> <span class="mh">0x7FFFFF</span><span class="p">;</span>  <span class="c1">// Get the fractional part</span>
+
+     <span class="c1">// For normal numbers, add the implicit leading 1 in the mantissa</span>
+     <span class="k">if</span> <span class="p">(</span><span class="n">exponent</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">127</span><span class="p">)</span> <span class="p">{</span>
+         <span class="n">mantissa</span> <span class="o">|=</span> <span class="mh">0x800000</span><span class="p">;</span>  <span class="c1">// Add the leading 1 bit for normalized values</span>
+     <span class="p">}</span>
+
+     <span class="c1">// Apply the bias for e4m3 (bias of 7)</span>
+     <span class="kt">int32_t</span> <span class="n">e4m3_exponent</span> <span class="o">=</span> <span class="n">exponent</span> <span class="o">+</span> <span class="mi">7</span><span class="p">;</span>  <span class="c1">// Bias for e4m3 is 7</span>
+
+     <span class="c1">// Handle exponent out of range (e4m3 has 4 exponent bits, max is 15)</span>
+     <span class="k">if</span> <span class="p">(</span><span class="n">e4m3_exponent</span> <span class="o">&gt;</span> <span class="mi">15</span><span class="p">)</span> <span class="p">{</span>
+         <span class="k">return</span> <span class="n">sign</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span> <span class="o">|</span> <span class="mh">0x7F</span><span class="p">;</span>  <span class="c1">// Saturate to the NaN</span>
+         <span class="c1">//return sign &lt;&lt; 7 | 0x7E;  // Saturate to the max value (S.1111.110 = S.448)</span>
+     <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">((</span><span class="n">e4m3_exponent</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">3</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="n">e4m3_exponent</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
+         <span class="c1">// Subnormal numbers (exponent is 0)</span>
+         <span class="c1">// For subnormal numbers, the mantissa is shifted and stored directly</span>
+         <span class="kt">uint8_t</span> <span class="n">shift_bits</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span> <span class="o">+</span> <span class="n">e4m3_exponent</span><span class="p">);</span>
+         <span class="c1">// Add 1 bit in front of mantissa then shift it</span>
+         <span class="kt">uint8_t</span> <span class="n">e4m3_mantissa</span> <span class="o">=</span> <span class="p">(</span><span class="n">mantissa</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="mi">24</span> <span class="o">-</span> <span class="n">shift_bits</span><span class="p">))</span> <span class="o">&amp;</span> <span class="p">(</span><span class="mh">0x7</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="mi">0</span><span class="o">-</span><span class="n">e4m3_exponent</span><span class="p">));</span>  <span class="c1">//Shift to get the top N bits (3 to 1)</span>
+         <span class="k">return</span> <span class="n">sign</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span> <span class="o">|</span> <span class="mh">0x00</span> <span class="o">|</span> <span class="n">e4m3_mantissa</span><span class="p">;</span>  <span class="c1">// Exponent is 0 for subnormal numbers</span>
+     <span class="p">}</span> <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">e4m3_exponent</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+         <span class="c1">// Saturate to 0</span>
+         <span class="k">return</span> <span class="n">sign</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span> <span class="o">|</span> <span class="mh">0x00</span><span class="p">;</span>
+     <span class="p">}</span>
+
+     <span class="c1">// For normal numbers, normalize mantissa to fit into 3 bits (e4m3 has 3 bits for mantissa)</span>
+     <span class="kt">uint8_t</span> <span class="n">e4m3_mantissa</span> <span class="o">=</span> <span class="p">(</span><span class="n">mantissa</span> <span class="o">&gt;&gt;</span> <span class="p">(</span><span class="mi">23</span> <span class="o">-</span> <span class="mi">3</span><span class="p">))</span> <span class="o">&amp;</span> <span class="mh">0x07</span><span class="p">;</span>  <span class="c1">// Shift to get the top 3 bits</span>
+
+     <span class="c1">// Pack the sign, exponent, and mantissa into an 8-bit value</span>
+     <span class="kt">uint8_t</span> <span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">sign</span> <span class="o">&lt;&lt;</span> <span class="mi">7</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">e4m3_exponent</span> <span class="o">&lt;&lt;</span> <span class="mi">3</span><span class="p">)</span> <span class="o">|</span> <span class="n">e4m3_mantissa</span><span class="p">;</span>
+
+     <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+ <span class="p">}</span>
+
+ <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+     <span class="kt">float</span> <span class="n">value</span><span class="p">;</span>
+     <span class="kt">char</span> <span class="n">cont</span> <span class="o">=</span> <span class="sc">'y'</span><span class="p">;</span>
+
+     <span class="c1">// Loop to repeatedly accept input</span>
+     <span class="k">while</span> <span class="p">(</span><span class="n">cont</span> <span class="o">==</span> <span class="sc">'y'</span> <span class="o">||</span> <span class="n">cont</span> <span class="o">==</span> <span class="sc">'Y'</span><span class="p">)</span> <span class="p">{</span>
+         <span class="c1">// Prompt the user to enter a float value</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Enter a float value: "</span><span class="p">;</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">value</span><span class="p">;</span>  <span class="c1">// Read input from the user</span>
+
+         <span class="c1">// Call the function to convert the float value to e4m3</span>
+         <span class="kt">uint8_t</span> <span class="n">e4m3</span> <span class="o">=</span> <span class="n">FloatToE4M3</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+
+         <span class="c1">// Print the result</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"e4m3 representation of "</span> <span class="o">&lt;&lt;</span> <span class="n">value</span> <span class="o">&lt;&lt;</span> <span class="s">" is 0x"</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">hex</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">e4m3</span> <span class="o">&lt;&lt;</span>
+ <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+
+         <span class="c1">// Ask if the user wants to continue</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Do you want to enter another value? (y/n): "</span><span class="p">;</span>
+         <span class="n">std</span><span class="o">::</span><span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">cont</span><span class="p">;</span>  <span class="c1">// Read 'y' or 'n' for continuing or exiting</span>
+     <span class="p">}</span>
+
+     <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Exiting program."</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// Exit successfully</span>
+ <span class="p">}</span>
+</code></pre></div></div> <p>Run it:</p> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>clang++ <span class="nt">-o</span> e4m3 FP32TOFP8.cc
+./e4me
+Enter a float value: 0.0136719
+e4m3 representation of 0.0136719 is 0x7
+Do you want to enter another value? <span class="o">(</span>y/n<span class="o">)</span>: y
+Enter a float value: 448
+e4m3 representation of 448 is 0x7e
+Do you want to enter another value? <span class="o">(</span>y/n<span class="o">)</span>: y
+Enter a float value: 0.001954
+e4m3 representation of 0.001954 is 0x1
+Do you want to enter another value? <span class="o">(</span>y/n<span class="o">)</span>: n
+</code></pre></div></div>]]></content><author><name>xyzzhangfan</name></author><category term="FP8"/><summary type="html"><![CDATA[Goal Open Computing Project (OCP) announced OCP 8-bit Floating Point Specification (OFP8). This post discusses how to convert FP32 to FP8(E4M3) and FP8(E4M3) back to FP32.]]></summary></entry><entry><title type="html">Setup the working environment</title><link href="https://xyzzhangfan.github.io/blog/2024/Working_environment_setup/" rel="alternate" type="text/html" title="Setup the working environment"/><published>2024-08-27T00:00:00+00:00</published><updated>2024-08-27T00:00:00+00:00</updated><id>https://xyzzhangfan.github.io/blog/2024/Working_environment_setup</id><content type="html" xml:base="https://xyzzhangfan.github.io/blog/2024/Working_environment_setup/"><![CDATA[<h2 id="goal">Goal</h2> <ol> <li>Install and setup <code class="language-plaintext highlighter-rouge">Oh-my-zsh</code> with plugins.</li> <li>Install and setup VIM with plugins.</li> <li>Install and setup git.</li> <li>Install <code class="language-plaintext highlighter-rouge">Oh-my-TMUX</code>.</li> <li>Use ctag to generate tags for vim</li> </ol> <h2 id="install-and-setup-oh-my-zsh">Install and setup <code class="language-plaintext highlighter-rouge">Oh-my-zsh</code>:</h2> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  sh <span class="nt">-c</span> <span class="s2">"</span><span class="si">$(</span>curl <span class="nt">-fsSL</span> https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh<span class="si">)</span><span class="s2">"</span>
 </code></pre></div></div> <h2 id="install-plugins-for-oh-my-zsh">Install plugins for <code class="language-plaintext highlighter-rouge">Oh-my-zsh</code>:</h2> <ol> <li>Install the theme Powerline10k: <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git clone <span class="nt">--depth</span><span class="o">=</span>1 https://github.com/romkatv/powerlevel10k.git <span class="k">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/.oh-my-zsh/custom</span><span class="k">}</span>/themes/powerlevel10k
 </code></pre></div> </div> </li> <li>Install plugin zsh-autosuggestions: <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git clone https://github.com/zsh-users/zsh-autosuggestions <span class="k">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="p">~/.oh-my-zsh/custom</span><span class="k">}</span>/plugins/zsh-autosuggestions
 </code></pre></div> </div> </li> <li>Install plugin zsh-syntax-highlighting: <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code> git clone https://github.com/zsh-users/zsh-syntax-highlighting.git <span class="k">${</span><span class="nv">ZSH_CUSTOM</span><span class="k">:-</span><span class="p">~/.oh-my-zsh/custom</span><span class="k">}</span>/plugins/zsh-syntax-highlighting
@@ -198,114 +372,4 @@ vcs <span class="s1">'-Mupdate'</span> <span class="s1">'-RPP'</span> <span clas
      )
 </code></pre></div></div> <hr/> <h3 id="check-the-vnc-session-number">Check the VNC session number:</h3> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ps <span class="nt">-ef</span> | <span class="nb">grep</span> <span class="sb">`</span><span class="nb">whoami</span><span class="sb">`</span> | <span class="nb">grep </span>vnc | <span class="nb">grep </span>Xorg
 </code></pre></div></div> <h3 id="kill-the-vnc-session">Kill the VNC session:</h3> <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vncserver <span class="nt">-kill</span> :&lt;Session Number&gt;
-</code></pre></div></div> <hr/>]]></content><author><name>xyzzhangfan</name></author><category term="Cadence"/><category term="Linux"/><category term="bash"/><summary type="html"><![CDATA[Unlock file in cadence]]></summary></entry><entry><title type="html">Installing tmux without root access</title><link href="https://xyzzhangfan.github.io/blog/2021/Installing_tmux_without_root/" rel="alternate" type="text/html" title="Installing tmux without root access"/><published>2021-03-13T00:00:00+00:00</published><updated>2021-03-13T00:00:00+00:00</updated><id>https://xyzzhangfan.github.io/blog/2021/Installing_tmux_without_root</id><content type="html" xml:base="https://xyzzhangfan.github.io/blog/2021/Installing_tmux_without_root/"><![CDATA[<h2 id="installing-tmux-without-root-access">Installing tmux without root access</h2> <p>The following script was adapted from <a href="https://gist.github.com/ryin/3106801">https://gist.github.com/ryin/3106801</a>with some improvements and broken link fixes. Have tested on Ubuntu 20.04.</p> <h3 id="adding-homelocalbin-to-your-path-to-use-tmux">Adding $HOME/local/bin to your PATH to use tmux.</h3> <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c">#!/bin/bash</span>
-
-<span class="c"># Script for installing tmux on systems where you don't have root access.</span>
-
-<span class="c"># tmux will be installed in $HOME/local/bin.</span>
-
-<span class="c"># It's assumed that wget and a C/C++ compiler are installed.</span>
-
-  
-
-<span class="c"># exit on error</span>
-
-<span class="nb">set</span> <span class="nt">-e</span>
-
-  
-
-<span class="nv">TMUX_VERSION</span><span class="o">=</span>3.1b
-
-  
-
-<span class="c"># create our directories</span>
-
-<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$HOME</span>/local <span class="nv">$HOME</span>/tmux_tmp
-
-<span class="nb">cd</span> <span class="nv">$HOME</span>/tmux_tmp
-
-  
-
-<span class="c"># download source files for tmux, libevent, and ncurses</span>
-
-wget https://github.com/tmux/tmux/releases/download/<span class="k">${</span><span class="nv">TMUX_VERSION</span><span class="k">}</span>/tmux-<span class="k">${</span><span class="nv">TMUX_VERSION</span><span class="k">}</span>.tar.gz
-wget https://github.com/downloads/libevent/libevent/libevent-2.0.19-stable.tar.gz
-wget ftp://ftp.gnu.org/gnu/ncurses/ncurses-6.2.tar.gz
-
-  
-
-<span class="c"># extract files, configure, and compile</span>
-
-  
-
-<span class="c">############</span>
-
-<span class="c"># libevent #</span>
-
-<span class="c">############</span>
-
-<span class="nb">tar </span>xvzf libevent-2.0.19-stable.tar.gz
-
-<span class="nb">cd </span>libevent-2.0.19-stable
-
-./configure <span class="nt">--prefix</span><span class="o">=</span><span class="nv">$HOME</span>/local <span class="nt">--disable-shared</span>
-
-make <span class="nt">-j</span>
-make <span class="nb">install</span> 
-
-<span class="c">############</span>
-<span class="nb">cd</span> ..
-
-  
-
-<span class="c">############</span>
-
-<span class="c"># ncurses  #</span>
-
-<span class="c">############</span>
-
-<span class="nb">tar </span>xvzf ncurses-6.2.tar.gz
-
-<span class="nb">cd </span>ncurses-6.2
-
-./configure <span class="nt">--prefix</span><span class="o">=</span><span class="nv">$HOME</span>/local
-
-make <span class="nt">-j</span>
-make <span class="nb">install</span>  
-<span class="c">############</span>
-
-<span class="nb">cd</span> ..
-
-  
-
-<span class="c">############</span>
-
-<span class="c"># tmux #</span>
-
-<span class="c">############</span>
-
-<span class="nb">tar </span>xvzf tmux-<span class="k">${</span><span class="nv">TMUX_VERSION</span><span class="k">}</span>.tar.gz
-
-<span class="nb">cd </span>tmux-<span class="k">${</span><span class="nv">TMUX_VERSION</span><span class="k">}</span>
-
-<span class="c">#./autogen.sh</span>
-
-./configure <span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">"-I</span><span class="nv">$HOME</span><span class="s2">/local/include -I</span><span class="nv">$HOME</span><span class="s2">/local/include/ncurses"</span> <span class="nv">LDFLAGS</span><span class="o">=</span><span class="s2">"-L</span><span class="nv">$HOME</span><span class="s2">/local/lib -L</span><span class="nv">$HOME</span><span class="s2">/local/include/ncurses -L</span><span class="nv">$HOME</span><span class="s2">/local/include"</span>
-
-<span class="nv">CPPFLAGS</span><span class="o">=</span><span class="s2">"-I</span><span class="nv">$HOME</span><span class="s2">/local/include -I</span><span class="nv">$HOME</span><span class="s2">/local/include/ncurses"</span> <span class="nv">LDFLAGS</span><span class="o">=</span><span class="s2">"-static -L</span><span class="nv">$HOME</span><span class="s2">/local/include -L</span><span class="nv">$HOME</span><span class="s2">/local/include/ncurses -L</span><span class="nv">$HOME</span><span class="s2">/local/lib"</span> make
-
-<span class="nb">cp </span>tmux <span class="nv">$HOME</span>/local/bin
-
-<span class="nb">cd</span> ..
-
-  
-
-<span class="c"># cleanup</span>
-
-<span class="nb">rm</span> <span class="nt">-rf</span> <span class="nv">$HOME</span>/tmux_tmp
-
-  
-
-<span class="nb">echo</span>  <span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/local/bin/tmux is now available. You can optionally add </span><span class="nv">$HOME</span><span class="s2">/local/bin to your PATH."</span>
-</code></pre></div></div>]]></content><author><name>xyzzhangfan</name></author><category term="Linux"/><category term="bash"/><category term="Tmux"/><summary type="html"><![CDATA[Installing tmux without root access]]></summary></entry></feed>
+</code></pre></div></div> <hr/>]]></content><author><name>xyzzhangfan</name></author><category term="Cadence"/><category term="Linux"/><category term="bash"/><summary type="html"><![CDATA[Unlock file in cadence]]></summary></entry></feed>
