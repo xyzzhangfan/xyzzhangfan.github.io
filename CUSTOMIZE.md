@@ -18,7 +18,6 @@ The project is structured as follows, focusing on the main components that you w
 ├── 📂 _data/: contains some of the data used in the template
 │   ├── 📄 cv.yml: CV in YAML format, used when assets/json/resume.json is not found
 │   ├── 📄 repositories.yml: users and repositories info in YAML format
-│   └── 📄 socials.yml: your social media and contact info in YAML format
 ├── 📂 _includes/: contains code parts that are included in the main HTML file
 │   └── 📄 news.liquid: defines the news section layout in the about page
 ├── 📂 _layouts/: contains the layouts to choose from in the frontmatter of the Markdown files
@@ -151,9 +150,6 @@ You can implement your own buttons by editing the [\_layouts/bib.liquid](_layout
 
 A variety of beautiful theme colors have been selected for you to choose from. The default is purple, but you can quickly change it by editing the `--global-theme-color` variable in the [\_sass/\_themes.scss](_sass/_themes.scss) file. Other color variables are listed there as well. The stock theme color options available can be found at [\_sass/\_variables.scss](_sass/_variables.scss). You can also add your own colors to this file assigning each a name for ease of use across the template.
 
-## Adding social media information
-
-You can add your social media links by adding the specified information in the [\_data/socials.yml](_data/socials.yml) file. This information will appear at the bottom of the `About` page and in the search results by default, but this could be changed to appear at the header of the page by setting `enable_navbar_social: true` and doesn't appear in the search by setting `socials_in_search: false`, both in [\_config.yml](_config.yml).
 
 ## Adding a newsletter
 
@@ -190,7 +186,6 @@ You can also:
 
 - delete [\_includes/latest_posts.liquid](_includes/latest_posts.liquid)
 - delete [\_includes/related_posts.liquid](_includes/related_posts.liquid)
-- delete [\_layouts/archive.liquid](_layouts/archive.liquid) (unless you have a custom collection that uses it)
 - delete [\_plugins/external-posts.rb](_plugins/external-posts.rb)
 - remove the `jekyll-archives-v2` gem from the [Gemfile](Gemfile) and the `plugins` section in [\_config.yml](_config.yml) (unless you have a custom collection that uses it)
 - remove the `classifier-reborn` gem from the [Gemfile](Gemfile)
