@@ -45,7 +45,7 @@ Here are some specific encoding for E4M3:
 
 
 
-## FP32 to E4M3
+## E4M3 to FP32
 ```cpp
  #include <cmath>
  #include <iomanip>
@@ -136,8 +136,7 @@ Do you want to enter another value? (y/n): n
 ```
 
 
-
-## E4M3 to FP32
+## FP32 to E4M3
 ```cpp
  #include <cmath>
  #include <iostream>
