@@ -122,16 +122,16 @@ Here are some specific encoding for E4M3:
 Run it:
 
 ```bash
-clang++ -o fp32 FP32TOFP8.cc
-./fp32
-Enter a E4M3 value in Hex: 7e
-float representation of E4M3 number 0x7e is 448
+clang++ -o e4m3 FP32TOFP8.cc
+./e4me
+Enter a float value: 0.0136719
+e4m3 representation of 0.0136719 is 0x7
 Do you want to enter another value? (y/n): y
-Enter a E4M3 value in Hex: 07
-float representation of E4M3 number 0x07 is 0.0136719
+Enter a float value: 448
+e4m3 representation of 448 is 0x7e
 Do you want to enter another value? (y/n): y
-Enter a E4M3 value in Hex: 08
-float representation of E4M3 number 0x08 is 0.015625
+Enter a float value: 0.001954
+e4m3 representation of 0.001954 is 0x1
 Do you want to enter another value? (y/n): n
 ```
 
@@ -224,15 +224,15 @@ Do you want to enter another value? (y/n): n
 Run it:
 
 ```bash
-clang++ -o e4m3 FP32TOFP8.cc
-./e4me
-Enter a float value: 0.0136719
-e4m3 representation of 0.0136719 is 0x7
+clang++ -o fp32 FP32TOFP8.cc
+./fp32
+Enter a E4M3 value in Hex: 7e
+float representation of E4M3 number 0x7e is 448
 Do you want to enter another value? (y/n): y
-Enter a float value: 448
-e4m3 representation of 448 is 0x7e
+Enter a E4M3 value in Hex: 07
+float representation of E4M3 number 0x07 is 0.0136719
 Do you want to enter another value? (y/n): y
-Enter a float value: 0.001954
-e4m3 representation of 0.001954 is 0x1
+Enter a E4M3 value in Hex: 08
+float representation of E4M3 number 0x08 is 0.015625
 Do you want to enter another value? (y/n): n
 ```
